@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Forminput from "../components/Forminput";
 import { useState } from "react";
 import Formbutton from "../components/Formbutton";
-
+// adda  commit
 export default function Loginscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
