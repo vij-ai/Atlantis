@@ -54,7 +54,6 @@ function Home() {
 // }
 
 const Stack = createStackNavigator();
-//asdasdasdasdcomment
 
 export default function app() {
   return (
