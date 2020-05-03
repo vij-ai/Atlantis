@@ -10,6 +10,7 @@ import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
 import SignupScreen from "./screens/Signupscreen";
 import { Provider as PaperProvider } from "react-native-paper";
+import Signupscreen1 from "./screens/Signupscreen1";
 
 const stack = createStackNavigator();
 
@@ -62,6 +63,7 @@ export default function app() {
         <Stack.Navigator initialRouteName="Login" headerMode="none">
           <Stack.Screen name="Login" component={Loginscreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen name="Signup1" component={Signupscreen1} />
           <stack.Screen
             name="Atlantis"
             component={Home}

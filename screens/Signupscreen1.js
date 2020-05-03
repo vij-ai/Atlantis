@@ -1,37 +1,42 @@
 import React, { useState, useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Title, IconButton } from "react-native-paper";
 import FormInput from "../components/Forminput";
 import FormButton from "../components/Formbutton";
+import SwitchSelector from "react-native-switch-selector";
 
-export default function SignupScreen({ navigation }) {
+export default function SignupScreen1({ navigation }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [nickname, setnickname] = useState("");
+  const [toggle, settoggle] = useState("m");
 
   return (
     <View style={styles.container}>
-      <Title style={styles.titleText}>Register to chat</Title>
-      <FormInput
-        labelname="Email"
-        value={email}
-        autoCapitalize="none"
-        onChangeText={(userEmail) => setEmail(userEmail)}
+      <Title style={styles.titleText}>Select your Genter below </Title>
+      <SwitchSelector
+        initial={0}
+        //onPress={(value) => settoggle(value)}
+        textColor={"#7a44cf"}
+        selectedColor={"#ffffff"}
+        buttonColor={"#7a44cf"}
+        borderColor={"#7a44cf"}
+        hasPadding
+        options={[
+          { label: "Female", value: "f" },
+          { label: "Male", value: "m" },
+        ]}
       />
-      <Text style={{ textAlign: "left", color: "grey" }}>
-        *You are completly anonymous. The Email is only to recover your password
-        if lost*
-      </Text>
+
       <FormInput
-        labelname="New Password"
-        value={password}
-        secureTextEntry={true}
-        onChangeText={(userPassword) => setPassword(userPassword)}
+        labelname="Type nick name"
+        value={nickname}
+        onChangeText={(nickname) => setnickname(nickname)}
       />
       <FormButton
-        title="Next"
+        title="Signup"
         modevalue="contained"
         labelStyle={styles.loginButtonLabel}
-        onPress={() => navigation.navigate("Signup1")}
+        onPress={() => navigation.navigate("Atlantis")}
       />
       <IconButton
         icon="keyboard-backspace"
