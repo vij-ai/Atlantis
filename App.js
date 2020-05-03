@@ -60,10 +60,22 @@ export default function app() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" headerMode="none">
-          <Stack.Screen name="Login" component={Loginscreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="Signup1" component={Signupscreen1} />
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={Loginscreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Signup1"
+            component={Signupscreen1}
+            options={{ headerShown: false }}
+          />
           <stack.Screen
             name="Atlantis"
             component={Home}
