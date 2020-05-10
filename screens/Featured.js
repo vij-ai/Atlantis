@@ -1,9 +1,10 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { Title } from "react-native-paper";
+import { Title, FAB } from "react-native-paper";
 import Formbutton from "../components/Formbutton";
 import Roomscreen from "../screens/Roomscreen";
+import Fab from "../components/Fab";
 
 export default function Featured({ navigation }) {
   return (
@@ -21,6 +22,7 @@ export default function Featured({ navigation }) {
         style={styles.navButtonText}
         onPress={() => navigation.navigate("Login")}
       />
+      <Fab onPress={() => navigation.navigate("Addroom")} />
     </View>
   );
 }
