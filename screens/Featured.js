@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Title } from "react-native-paper";
 import Formbutton from "../components/Formbutton";
+import Roomscreen from "../screens/Roomscreen";
 
 export default function Featured({ navigation }) {
   return (
@@ -11,7 +12,7 @@ export default function Featured({ navigation }) {
       <Formbutton
         title="Add new chatroom"
         modevalue="contained"
-        //onPress={() => navigation.navigate('')}
+        onPress={() => navigation.navigate("Addroom")}
       />
       <Formbutton
         title=" Log out"

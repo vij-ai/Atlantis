@@ -11,7 +11,7 @@ export default function Mychats({ navigation }) {
       <Formbutton
         title="Start a private chat"
         modevalue="contained"
-        //onPress={() => navigation.navigate('')}
+        onPress={() => navigation.navigate("Chats")}
       />
       <Formbutton
         title=" Log out"
