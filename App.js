@@ -27,10 +27,6 @@ const stack = createStackNavigator();
 
 const tab = createMaterialTopTabNavigator();
 
-// _openMenu = () => this.setState({ visible: true });
-
-// _closeMenu = () => this.setState({ visible: false });
-
 function Home() {
   return (
     <tab.Navigator
@@ -107,29 +103,6 @@ export default function app() {
   );
 }
 
-// export function App() {
-//   return (
-//     <NavigationContainer>
-//       <stack.Navigator>
-//         <stack.Screen
-//           name="Atlantis"
-//           component={Home}
-//           options={{
-//             headerTitleStyle: { fontweight: "bold" },
-//           }}
-//         />
-//       </stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-// export default test;
-
-// function test() {
-//   return(
-//   <Loginscreen/>
-//   )
-// }
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f5f5f5",
@@ -148,13 +121,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-{
-  /* <Formbutton
-                  title="More"
-                  modevalue="text"
-                  uppercase={false}
-                  labelStyle={styles.navButtonText}
-                  onPress={() => <Overflowmenu />}
-                /> */
-}

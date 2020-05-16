@@ -11,31 +11,26 @@ import * as firebase from "firebase";
 export default function Loginscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const loginUser = (email, password) => {
+
+  const loginUser = async (email, password) => {
     try {
-      firebase.auth().signInWithEmailAndPassword(email, password);
+      await firebase.auth().signInWithEmailAndPassword(email, password);
       alert("login sucessful");
       navigation.navigate("Atlantis");
     } catch (error) {
-      // dispatch(sessionError(error.message));
-      console.log("error", error);
+      alert("Email or password wrong", error);
     }
   };
 
   const signupUser = async (email, password) => {
     try {
-      console.log("##em", email, password);
-      const res = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
-      console.log("##res", res);
-      alert("signedup sucessful");
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      alert("Sign up successful");
     } catch (error) {
-      console.log("error", error);
+      alert("Something went wrong", error);
     }
   };
 
-  console.log("##email", typeof Email);
   return (
     <View style={styles.container}>
       <Title style={styles.titleText}> Welcome to Atlantis </Title>

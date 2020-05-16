@@ -3,10 +3,22 @@ import { View, StyleSheet } from "react-native";
 import { IconButton, Title } from "react-native-paper";
 import FormInput from "../components/Forminput";
 import FormButton from "../components/Formbutton";
+import * as firebase from "firebase";
 
 export default function AddRoomScreen({ navigation }) {
   const [roomName, setRoomName] = useState("");
   // ... Firestore query will come here later
+
+  const handleButtonPress = (roomName) => {
+    const db = firebase.firestore();
+    db.settings({
+      timestampsInSnapshots: true,
+    });
+    db.collection("ChatRooms").add({
+      ChatRoomName: roomName,
+    });
+    alert("Chat room successfully added");
+  };
 
   return (
     <View style={styles.rootContainer}>
@@ -30,7 +42,7 @@ export default function AddRoomScreen({ navigation }) {
           title="Create"
           modeValue="contained"
           labelStyle={styles.buttonLabel}
-          onPress={() => handleButtonPress()}
+          onPress={() => handleButtonPress(roomName)}
           disabled={roomName.length === 0}
         />
       </View>
