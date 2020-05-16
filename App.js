@@ -9,6 +9,8 @@ import Featured from "./screens/Featured";
 import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
 import SignupScreen from "./screens/Signupscreen";
+import * as firebase from "firebase";
+
 import {
   Provider as PaperProvider,
   IconButton,
@@ -46,6 +48,21 @@ function Home() {
 const Stack = createStackNavigator();
 
 export default function app() {
+  const initializeFirebase = () => {
+    var firebaseConfig = {
+      apiKey: "AIzaSyAFlBWkTcp4vmKuIvbWFasE_yrcVXAGq74",
+      authDomain: "atlantis-ce3e8.firebaseapp.com",
+      databaseURL: "https://atlantis-ce3e8.firebaseio.com",
+      projectId: "atlantis-ce3e8",
+      storageBucket: "atlantis-ce3e8.appspot.com",
+      messagingSenderId: "615161226701",
+      appId: "1:615161226701:web:b595c5f9deb0e62f4fd084",
+      measurementId: "G-VTE9LVM7G6",
+    };
+    firebase.initializeApp(firebaseConfig);
+  };
+
+  initializeFirebase();
   return (
     <PaperProvider>
       <NavigationContainer>

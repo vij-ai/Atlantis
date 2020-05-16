@@ -4,10 +4,38 @@ import { View, Text, StyleSheet } from "react-native";
 import Forminput from "../components/Forminput";
 import { useState } from "react";
 import Formbutton from "../components/Formbutton";
+import * as firebase from "firebase";
+
+// const FIREBASE_REF_USERS = firebaseService.database().ref("Users");
 
 export default function Loginscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const loginUser = (email, password) => {
+    try {
+      firebase.auth().signInWithEmailAndPassword(email, password);
+      alert("login sucessful");
+      navigation.navigate("Atlantis");
+    } catch (error) {
+      // dispatch(sessionError(error.message));
+      console.log("error", error);
+    }
+  };
+
+  const signupUser = async (email, password) => {
+    try {
+      console.log("##em", email, password);
+      const res = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      console.log("##res", res);
+      alert("signedup sucessful");
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  console.log("##email", typeof Email);
   return (
     <View style={styles.container}>
       <Title style={styles.titleText}> Welcome to Atlantis </Title>
@@ -28,14 +56,14 @@ export default function Loginscreen({ navigation }) {
         title="Log in"
         modevalue="contained"
         labelStyle={styles.loginButtonLabel}
-        onPress={() => navigation.navigate("Atlantis")}
+        onPress={() => loginUser(Email, Password)}
       />
       <Formbutton
         title="New user ? Join Atlantic here"
         modevalue="text"
         uppercase={false}
         labelStyle={styles.navButtonText}
-        onPress={() => navigation.navigate("Signup")}
+        onPress={() => signupUser(Email, Password)}
       />
     </View>
   );
