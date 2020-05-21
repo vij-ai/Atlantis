@@ -1,7 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -11,19 +11,15 @@ import Loginscreen from "./screens/Loginscreen";
 import SignupScreen from "./screens/Signupscreen";
 import * as firebase from "firebase";
 
-import {
-  Provider as PaperProvider,
-  IconButton,
-  Menu,
-} from "react-native-paper";
+import { Provider as PaperProvider, IconButton } from "react-native-paper";
 import Signupscreen1 from "./screens/Signupscreen1";
-import Overflowmenu from "./components/Overflowmenu";
-import Formbutton from "./components/Formbutton";
+import NewOverflowMenu from "./components/NewOverflowMenu";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoomScreen from "./screens/Roomscreen";
 import AddRoomScreen from "./screens/Addroomscreen";
-
-const stack = createStackNavigator();
+import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
+import { useState } from "react";
+import FeaturedChatRooms from "./screens/FeaturedChatRooms";
 
 const tab = createMaterialTopTabNavigator();
 
@@ -35,7 +31,7 @@ function Home() {
         style: { backgroundColor: "black" },
       }}
     >
-      <tab.Screen name="Featured" component={Featured} />
+      <tab.Screen name="Featured" component={FeaturedChatRooms} />
       <tab.Screen name="My chats" component={Mychats} />
     </tab.Navigator>
   );
@@ -59,10 +55,11 @@ export default function app() {
   };
 
   initializeFirebase();
+
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Atlantis">
           <Stack.Screen
             name="Login"
             component={Loginscreen}
@@ -79,24 +76,17 @@ export default function app() {
             options={{ headerShown: false }}
           />
 
-          <stack.Screen
+          <Stack.Screen
             name="Atlantis"
             component={Home}
             options={({ navigation }) => ({
               headerTitleStyle: { fontweight: "bold" },
-              headerRight: () => (
-                <Formbutton
-                  title=" New Chatroom"
-                  modevalue="text"
-                  uppercase={false}
-                  style={styles.navButtonText}
-                  onPress={() => navigation.navigate("Addroom")}
-                />
-              ),
+              headerLeft: false,
+              headerRight: () => <NewOverflowMenu />,
             })}
           />
-          <stack.Screen name="Chats" component={RoomScreen} />
-          <stack.Screen name="Addroom" component={AddRoomScreen} />
+          <Stack.Screen name="Chats" component={RoomScreen} />
+          <Stack.Screen name="Addroom" component={AddRoomScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

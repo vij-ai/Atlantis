@@ -5,8 +5,12 @@ import { Title, FAB } from "react-native-paper";
 import Formbutton from "../components/Formbutton";
 import Roomscreen from "../screens/Roomscreen";
 import Fab from "../components/Fab";
+import * as firebase from "firebase";
 
 export default function Featured({ navigation }) {
+  // const ref = firebase.firestore();
+  // console.log("##ref", ref);
+
   return (
     <View style={styles.container}>
       <Title style={styles.titleText}> No chatroom here </Title>

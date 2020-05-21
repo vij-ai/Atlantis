@@ -16,6 +16,7 @@ export default function Loginscreen({ navigation }) {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       alert("login sucessful");
+
       navigation.navigate("Atlantis");
     } catch (error) {
       alert("Email or password wrong", error);
@@ -27,7 +28,7 @@ export default function Loginscreen({ navigation }) {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
       alert("Sign up successful");
     } catch (error) {
-      alert("Something went wrong", error);
+      alert("Type Email and Password to Sign up", error);
     }
   };
 
@@ -54,7 +55,7 @@ export default function Loginscreen({ navigation }) {
         onPress={() => loginUser(Email, Password)}
       />
       <Formbutton
-        title="New user ? Join Atlantic here"
+        title="Sign up"
         modevalue="text"
         uppercase={false}
         labelStyle={styles.navButtonText}

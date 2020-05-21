@@ -1,25 +1,40 @@
-import {
-  Provider as PaperProvider,
-  IconButton,
-  Menu,
-} from "react-native-paper";
-
 import * as React from "react";
-import { View, Text, Button } from "react-native";
+import { View } from "react-native";
+import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
 
-export default function overflowmenu() {
-  return (
-    <View>
-      <Menu
-        visible={true}
-        //onDismiss={this._closeMenu}
-        //anchor={<Button title="hithere" />}
-      >
-        <Menu.Item title="Item 1" />
-        <Menu.Item title="Item 2" />
+export default class OverFlowMenu extends React.Component {
+  state = {
+    visible: false,
+  };
 
-        <Menu.Item title="Item 3" />
-      </Menu>
-    </View>
-  );
+  _openMenu = () => this.setState({ visible: true });
+
+  _closeMenu = () => this.setState({ visible: false });
+
+  render() {
+    return (
+      <Provider>
+        <View
+          style={{
+            paddingTop: 10,
+            // flexDirection: "row",
+            // justifyContent: "center",
+          }}
+        >
+          <Menu
+            visible={this.state.visible}
+            onDismiss={this._closeMenu}
+            anchor={
+              <Button onPress={this._openMenu}>asdasds asdasd Menu</Button>
+            }
+          >
+            <Menu.Item onPress={() => {}} title="Item 1" />
+            <Menu.Item onPress={() => {}} title="Item 2" />
+            <Divider />
+            <Menu.Item onPress={() => {}} title="Item 3" />
+          </Menu>
+        </View>
+      </Provider>
+    );
+  }
 }
