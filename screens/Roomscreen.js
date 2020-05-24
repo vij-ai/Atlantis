@@ -1,29 +1,25 @@
 import React, { useState } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 
-export default function RoomScreen() {
-  const [messages, setMessages] = useState([
-    /**
-     * Mock message data
-     */
-    // example of system message
-    {
-      _id: 0,
-      text: "New room created.",
+import * as firebase from "firebase";
+
+export default function RoomScreen(page) {
+  console.log("@@", page);
+
+  const db = firebase.firestore();
+
+  db.collection("ChatRooms")
+    .doc("PhXwQfd7pSVJdMvRCsxW")
+    .collection("Messages")
+    .add({
+      text: "this is a a random text",
       createdAt: new Date().getTime(),
-      system: true,
-    },
-    // example of chat message
-    {
-      _id: 1,
-      text: "Henlo!",
-      createdAt: new Date().getTime(),
-      user: {
-        _id: 2,
-        name: "Test User",
-      },
-    },
-  ]);
+      from: "rajith",
+    });
+
+  console.log("@@db", db);
+
+  const [messages, setMessages] = useState([]);
 
   // helper method that is sends a message
   function handleSend(newMessage = []) {
