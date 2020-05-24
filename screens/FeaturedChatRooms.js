@@ -32,7 +32,7 @@ export default function FeaturedChatRooms({ navigation }) {
     return ref.onSnapshot((querySnapshot) => {
       const list = [];
       querySnapshot.forEach((doc) => {
-        // console.log("##doc", doc);
+        console.log("##doc", doc);
         const { ChatRoomName } = doc.data();
         list.push({
           id: doc.id,
