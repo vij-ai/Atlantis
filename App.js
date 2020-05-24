@@ -20,6 +20,7 @@ import AddRoomScreen from "./screens/Addroomscreen";
 import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
 import { useState } from "react";
 import FeaturedChatRooms from "./screens/FeaturedChatRooms";
+import Formbutton from "./components/Formbutton";
 
 const tab = createMaterialTopTabNavigator();
 
@@ -82,7 +83,14 @@ export default function app() {
             options={({ navigation }) => ({
               headerTitleStyle: { fontweight: "bold" },
               headerLeft: false,
-              headerRight: () => <NewOverflowMenu />,
+              headerRight: () => (
+                <Formbutton
+                  title="New Chatroom"
+                  onPress={() => navigation.navigate("Addroom")}
+                  uppercase={false}
+                />
+              ),
+              //<NewOverflowMenu />,
             })}
           />
           <Stack.Screen name="Chats" component={RoomScreen} />

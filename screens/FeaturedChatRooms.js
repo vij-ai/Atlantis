@@ -31,7 +31,7 @@ export default function FeaturedChatRooms({ navigation }) {
     return ref.onSnapshot((querySnapshot) => {
       const list = [];
       querySnapshot.forEach((doc) => {
-        console.log("##doc", doc);
+        // console.log("##doc", doc);
         const { ChatRoomName } = doc.data();
         list.push({
           id: doc.id,
@@ -39,7 +39,7 @@ export default function FeaturedChatRooms({ navigation }) {
         });
       });
 
-      console.log("##list", list);
+      //console.log("##list", list);
 
       setData(list);
       if (loading) {
@@ -49,7 +49,7 @@ export default function FeaturedChatRooms({ navigation }) {
   }, []);
 
   if (loading) return null;
-  console.log("##data", data);
+  //console.log("##data", data);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

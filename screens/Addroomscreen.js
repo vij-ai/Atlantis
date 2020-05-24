@@ -18,6 +18,7 @@ export default function AddRoomScreen({ navigation }) {
       ChatRoomName: roomName,
     });
     alert("Chat room successfully added");
+    navigation.goBack();
   };
 
   return (
