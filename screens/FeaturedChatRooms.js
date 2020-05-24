@@ -8,18 +8,18 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { useEffect, useState } from "react";
-import { List } from "react-native-paper";
 
-function Item({ id, ChatRoomName, navigation }) {
+function Item({ id, ChatRoomName, navigation, jam }) {
   console.log("##cha", ChatRoomName);
-  
+
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Chats", { page: id })}
+      onPress={() => navigation.navigate("Chats", { thread: jam })}
       style={styles.item}
     >
       <Text style={styles.title}>{ChatRoomName}</Text>
     </TouchableOpacity>
+  );
 }
 
 export default function FeaturedChatRooms({ navigation }) {
@@ -61,6 +61,7 @@ export default function FeaturedChatRooms({ navigation }) {
             id={item.id}
             ChatRoomName={item.ChatRoomName}
             navigation={navigation}
+            jam={item}
           />
         )}
         keyExtractor={(item) => item.id}
