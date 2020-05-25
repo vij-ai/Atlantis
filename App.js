@@ -1,7 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -39,6 +39,25 @@ function Home() {
 }
 
 const Stack = createStackNavigator();
+
+function Logo() {
+  return (
+    <View>
+      <Image
+        source={{
+          uri:
+            "https://see.fontimg.com/api/renderfont4/8VA2/eyJyIjoiZnMiLCJoIjo2NSwidyI6MTAwMCwiZnMiOjY1LCJmZ2MiOiIjMDAwMDAwIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/bG9uZWx5/quite-magical-regular.png",
+        }}
+        style={{
+          width: 100,
+          height: 40,
+          marginLeft: 15,
+          resizeMode: "stretch",
+        }}
+      />
+    </View>
+  );
+}
 
 export default function app() {
   const initializeFirebase = () => {
@@ -81,8 +100,9 @@ export default function app() {
             name="Atlantis"
             component={Home}
             options={({ navigation }) => ({
+              headerTitle: false,
               headerTitleStyle: { fontweight: "bold" },
-              headerLeft: false,
+              headerLeft: () => <Logo />,
               headerRight: () => (
                 <Formbutton
                   title="New Chatroom"
