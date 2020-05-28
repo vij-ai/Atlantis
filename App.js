@@ -29,7 +29,16 @@ function Home() {
     <tab.Navigator
       tabBarOptions={{
         labelStyle: { fontSize: 12, color: "white" },
-        style: { backgroundColor: "black" },
+        //style: { backgroundColor: "black" },
+        style: {
+          backgroundColor: "black",
+          borderTopWidth: 1,
+          borderTopColor: "#D3D3D3",
+        },
+        indicatorStyle: {
+          backgroundColor: "#6200EE",
+          height: 4,
+        },
       }}
     >
       <tab.Screen name="Featured" component={FeaturedChatRooms} />
@@ -101,7 +110,7 @@ export default function app() {
             component={Home}
             options={({ navigation }) => ({
               headerTitle: false,
-              headerTitleStyle: { fontweight: "bold" },
+              //headerTitleStyle: { fontweight: "bold" },
               headerLeft: () => <Logo />,
               headerRight: () => (
                 <Formbutton

@@ -2,7 +2,7 @@
   name="Atlantis"
   component={Home}
   options={({ navigation }) => ({
-    headerTitleStyle: { fontweight: "bold" },
+    //headerTitleStyle: { fontweight: "bold" },
     headerLeft: false,
     headerRight: () => (
       <Formbutton

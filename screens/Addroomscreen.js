@@ -11,9 +11,9 @@ export default function AddRoomScreen({ navigation }) {
 
   const handleButtonPress = (roomName) => {
     const db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true,
-    });
+    // db.settings({
+    //   timestampsInSnapshots: true,
+    // });
     db.collection("ChatRooms").add({
       ChatRoomName: roomName,
     });

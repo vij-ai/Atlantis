@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { useEffect, useState } from "react";
+import "firebase/firestore";
 
 function Item({ id, ChatRoomName, navigation, jam }) {
   console.log("##cha", ChatRoomName);
