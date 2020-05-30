@@ -16,8 +16,7 @@ export default function Loginscreen({ navigation }) {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       alert("login sucessful");
-
-      navigation.navigate("Atlantis");
+      navigation.navigate("Atlantis", email);
     } catch (error) {
       alert("Email or password wrong", error);
     }

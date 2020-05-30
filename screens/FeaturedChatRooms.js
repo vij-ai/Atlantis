@@ -23,7 +23,8 @@ function Item({ id, ChatRoomName, navigation, jam }) {
   );
 }
 
-export default function FeaturedChatRooms({ navigation }) {
+export default function FeaturedChatRooms({ navigation, email }) {
+  console.log("##email", email);
   const ref = firebase.firestore().collection("ChatRooms");
 
   const [loading, setLoading] = useState(true);

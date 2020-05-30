@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 
 import * as firebase from "firebase";
+import "firebase/firestore";
 
 export default function RoomScreen({ route }) {
   const [messages, setMessages] = useState([]);
@@ -16,7 +17,10 @@ export default function RoomScreen({ route }) {
     .doc(thread.id)
     .collection("Messages")
     .orderBy("createdAt", "desc");
-  console.log("@@ref", ref);
+  console.log("@@db", db);
+
+  const userEmail = firebase.auth().currentUser.email;
+  //console.log("@@user", user);
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;
@@ -24,9 +28,8 @@ export default function RoomScreen({ route }) {
     db.collection("ChatRooms").doc(thread.id).collection("Messages").add({
       text,
       createdAt: new Date().getTime(),
-      //from: "rajith",
+      user: userEmail,
     });
-    console.log("@@text", text);
   }
 
   useEffect(() => {
@@ -40,9 +43,9 @@ export default function RoomScreen({ route }) {
           id: doc.id,
           text: ChatMessages.text,
           createdAt: ChatMessages.createdAt,
-          ChatMessages,
+          //_id: ChatMessages.from,
+          user: { _id: ChatMessages.user },
         });
-        console.log("@@list", list);
       });
       setMessages(list);
     });
@@ -57,7 +60,7 @@ export default function RoomScreen({ route }) {
     <GiftedChat
       messages={messages}
       onSend={handleSend}
-      //user={{ _id: 1 }}
+      user={{ _id: userEmail }}
     />
   );
 }

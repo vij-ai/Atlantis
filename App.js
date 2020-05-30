@@ -24,7 +24,9 @@ import Formbutton from "./components/Formbutton";
 
 const tab = createMaterialTopTabNavigator();
 
-function Home() {
+function Home(email) {
+  console.log("$$email", email.route.params);
+
   return (
     <tab.Navigator
       tabBarOptions={{
@@ -88,7 +90,7 @@ export default function app() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Atlantis">
+        <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
             name="Login"
             component={Loginscreen}
