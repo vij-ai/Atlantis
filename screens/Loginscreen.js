@@ -5,6 +5,7 @@ import Forminput from "../components/Forminput";
 import { useState } from "react";
 import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
+import ImagePicker from "react-native-image-picker";
 
 // const FIREBASE_REF_USERS = firebaseService.database().ref("Users");
 
@@ -16,7 +17,7 @@ export default function Loginscreen({ navigation }) {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       alert("login sucessful");
-      navigation.navigate("Atlantis", email);
+      navigation.navigate("Atlantis");
     } catch (error) {
       alert("Email or password wrong", error);
     }
@@ -26,14 +27,18 @@ export default function Loginscreen({ navigation }) {
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
       alert("Sign up successful");
+      navigation.navigate("Atlantis");
     } catch (error) {
-      alert("Type Email and Password to Sign up", error);
+      alert("Type another Email or Password to Sign up", error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Title style={styles.titleText}> Welcome to Atlantis </Title>
+      <Title style={styles.titleText}>
+        {" "}
+        Welcome to Lonely - The anonymous chat app{" "}
+      </Title>
 
       <Forminput
         labelname="Email"

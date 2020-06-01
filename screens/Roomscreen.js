@@ -3,9 +3,11 @@ import { GiftedChat } from "react-native-gifted-chat";
 
 import * as firebase from "firebase";
 import "firebase/firestore";
+import Loading from "../components/Loading";
 
 export default function RoomScreen({ route }) {
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   console.log("@@route", route);
   const { thread } = route.params;
   console.log("@@thread", thread.id);
@@ -20,6 +22,7 @@ export default function RoomScreen({ route }) {
   console.log("@@db", db);
 
   const userEmail = firebase.auth().currentUser.email;
+  const userid = firebase.auth().currentUser.uid;
   //console.log("@@user", user);
 
   function handleSend(newMessages) {
@@ -29,6 +32,7 @@ export default function RoomScreen({ route }) {
       text,
       createdAt: new Date().getTime(),
       user: userEmail,
+      // _id: userid,
     });
   }
 
@@ -40,7 +44,7 @@ export default function RoomScreen({ route }) {
         const ChatMessages = doc.data();
         console.log("@@Chatmessages", ChatMessages);
         list.push({
-          id: doc.id,
+          //id: doc.id,
           text: ChatMessages.text,
           createdAt: ChatMessages.createdAt,
           //_id: ChatMessages.from,
@@ -48,19 +52,22 @@ export default function RoomScreen({ route }) {
         });
       });
       setMessages(list);
+
+      if (loading) {
+        setLoading(false);
+      }
     });
   }, []);
-
-  // helper method that is sends a message
-  // function handleSend(newMessage = []) {
-  //   setMessages(GiftedChat.append(messages, newMessage));
-  // }
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <GiftedChat
       messages={messages}
       onSend={handleSend}
       user={{ _id: userEmail }}
+      minComposerHeight={60}
+      alignTop={true}
     />
   );
 }

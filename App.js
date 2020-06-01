@@ -5,14 +5,14 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Featured from "./screens/Featured";
+
 import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
-import SignupScreen from "./screens/Signupscreen";
+
 import * as firebase from "firebase";
 
 import { Provider as PaperProvider, IconButton } from "react-native-paper";
-import Signupscreen1 from "./screens/Signupscreen1";
+
 import NewOverflowMenu from "./components/NewOverflowMenu";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoomScreen from "./screens/Roomscreen";
@@ -21,12 +21,31 @@ import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
 import { useState } from "react";
 import FeaturedChatRooms from "./screens/FeaturedChatRooms";
 import Formbutton from "./components/Formbutton";
+import "firebase/firestore";
+import { decode, encode } from "base-64";
+
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
+
+import { YellowBox } from "react-native";
+import _ from "lodash";
+
+YellowBox.ignoreWarnings(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
 
 const tab = createMaterialTopTabNavigator();
 
-function Home(email) {
-  console.log("$$email", email.route.params);
-
+function Home() {
   return (
     <tab.Navigator
       tabBarOptions={{
@@ -71,7 +90,7 @@ function Logo() {
 }
 
 export default function app() {
-  const initializeFirebase = () => {
+  function initializeFirebase() {
     var firebaseConfig = {
       apiKey: "AIzaSyAFlBWkTcp4vmKuIvbWFasE_yrcVXAGq74",
       authDomain: "atlantis-ce3e8.firebaseapp.com",
@@ -83,7 +102,7 @@ export default function app() {
       measurementId: "G-VTE9LVM7G6",
     };
     firebase.initializeApp(firebaseConfig);
-  };
+  }
 
   initializeFirebase();
 
@@ -94,16 +113,6 @@ export default function app() {
           <Stack.Screen
             name="Login"
             component={Loginscreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={SignupScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Signup1"
-            component={Signupscreen1}
             options={{ headerShown: false }}
           />
 

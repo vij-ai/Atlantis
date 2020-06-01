@@ -1,28 +1,13 @@
 {
   "expo": {
-    "name": "Atlantis",
-    "slug": "Atlantis",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
+    "name": "Lonely",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
+    "version": "1.0.0",
+    "slug": "Atlantis",
+
+    "android": {
+      "package": "com.yourcompany.lonely",
+      "versionCode": 1
     }
   }
 }

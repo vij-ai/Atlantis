@@ -5,57 +5,63 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  View,
+  Dimensions,
 } from "react-native";
 import * as firebase from "firebase";
 import { useEffect, useState } from "react";
 import "firebase/firestore";
+import Loading from "../components/Loading";
 
-function Item({ id, ChatRoomName, navigation, jam }) {
-  console.log("##cha", ChatRoomName);
-
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Chats", { thread: jam })}
-      style={styles.item}
-    >
-      <Text style={styles.title}>{ChatRoomName}</Text>
-    </TouchableOpacity>
-  );
-}
-
-export default function FeaturedChatRooms({ navigation, email }) {
-  console.log("##email", email);
+export default function FeaturedChatRooms({ navigation }) {
   const ref = firebase.firestore().collection("ChatRooms");
-
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    return ref.onSnapshot((querySnapshot) => {
-      const list = [];
-      querySnapshot.forEach((doc) => {
-        console.log("##doc", doc);
-        const { ChatRoomName } = doc.data();
-        list.push({
-          id: doc.id,
+  function Item({ id, ChatRoomName, navigation, jam }) {
+    //console.log("##cha", ChatRoomName);
 
-          ChatRoomName,
-        });
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Chats", { thread: jam })}
+          style={styles.item}
+        >
+          <Text style={styles.title}>{ChatRoomName}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  useEffect(() => {
+    const unsubscribe = ref.onSnapshot((querySnapshot) => {
+      const list = querySnapshot.docs.map((documentSnapshot) => {
+        return {
+          id: documentSnapshot.id,
+
+          ...documentSnapshot.data(),
+        };
       });
 
-      //console.log("##list", list);
-
       setData(list);
+
       if (loading) {
         setLoading(false);
       }
     });
+
+    /**
+     * unsubscribe listener
+     */
+    return () => unsubscribe();
   }, []);
 
-  if (loading) return null;
-  //console.log("##data", data);
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         data={data}
         renderItem={({ item }) => (
@@ -68,7 +74,7 @@ export default function FeaturedChatRooms({ navigation, email }) {
         )}
         keyExtractor={(item) => item.id}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
