@@ -5,7 +5,7 @@ import Forminput from "../components/Forminput";
 import { useState } from "react";
 import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
-import ImagePicker from "react-native-image-picker";
+import Imagepicker from "../components/Imagepicker";
 
 // const FIREBASE_REF_USERS = firebaseService.database().ref("Users");
 

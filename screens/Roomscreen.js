@@ -4,6 +4,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import Loading from "../components/Loading";
+import Imagepicker from "../components/Imagepicker";
 
 export default function RoomScreen({ route }) {
   const [messages, setMessages] = useState([]);
@@ -68,6 +69,15 @@ export default function RoomScreen({ route }) {
       user={{ _id: userEmail }}
       minComposerHeight={60}
       alignTop={true}
+      //renderUsernameOnMessage={true}
+      scrollToBottom={true}
+      // keyboardShouldPersistTaps={
+      //   this.props.keyboardShouldPersistTaps
+      //     ? this.props.keyboardShouldPersistTaps
+      //     : "never"
+      // }
+      //bottomOffset={240}
+      renderActions={() => <Imagepicker />}
     />
   );
 }

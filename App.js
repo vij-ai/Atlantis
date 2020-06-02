@@ -109,7 +109,7 @@ export default function app() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Atlantis">
           <Stack.Screen
             name="Login"
             component={Loginscreen}
