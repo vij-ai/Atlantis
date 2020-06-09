@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
+import Image, { View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 
 import * as firebase from "firebase";
 import "firebase/firestore";
 import Loading from "../components/Loading";
 import Imagepicker from "../components/Imagepicker";
+import Fab from "../components/Fab";
 
 export default function RoomScreen({ route }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log("@@route", route);
+
   const { thread } = route.params;
-  console.log("@@thread", thread.id);
 
   const db = firebase.firestore();
   const ref = firebase
@@ -22,9 +23,14 @@ export default function RoomScreen({ route }) {
     .orderBy("createdAt", "desc");
   console.log("@@db", db);
 
-  const userEmail = firebase.auth().currentUser.email;
-  const userid = firebase.auth().currentUser.uid;
-  //console.log("@@user", user);
+  var user = firebase.auth().currentUser;
+  var name, email;
+
+  if (user != null) {
+    name = user.displayName;
+    email = user.email;
+  }
+  console.log("!!usernameroomsc", name);
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;
@@ -32,7 +38,10 @@ export default function RoomScreen({ route }) {
     db.collection("ChatRooms").doc(thread.id).collection("Messages").add({
       text,
       createdAt: new Date().getTime(),
-      user: userEmail,
+      user: email,
+      name: name,
+      url: "",
+
       // _id: userid,
     });
   }
@@ -43,13 +52,17 @@ export default function RoomScreen({ route }) {
       querySnapshot.forEach((doc) => {
         console.log("@@doc", doc);
         const ChatMessages = doc.data();
-        console.log("@@Chatmessages", ChatMessages);
+        console.log("@@Chatmessages.url", ChatMessages.url);
         list.push({
           //id: doc.id,
           text: ChatMessages.text,
           createdAt: ChatMessages.createdAt,
           //_id: ChatMessages.from,
-          user: { _id: ChatMessages.user },
+          user: {
+            _id: ChatMessages.user,
+            name: ChatMessages.name,
+          },
+          image: ChatMessages.url,
         });
       });
       setMessages(list);
@@ -62,22 +75,24 @@ export default function RoomScreen({ route }) {
   if (loading) {
     return <Loading />;
   }
+
   return (
     <GiftedChat
       messages={messages}
       onSend={handleSend}
-      user={{ _id: userEmail }}
-      minComposerHeight={60}
+      user={{ _id: email, name: name }}
+      //minComposerHeight={60}
       alignTop={true}
-      //renderUsernameOnMessage={true}
-      scrollToBottom={true}
+      // isTyping={true}
+      renderUsernameOnMessage={true}
+      //scrollToBottom={true}
       // keyboardShouldPersistTaps={
       //   this.props.keyboardShouldPersistTaps
       //     ? this.props.keyboardShouldPersistTaps
       //     : "never"
       // }
       //bottomOffset={240}
-      renderActions={() => <Imagepicker />}
+      renderActions={() => <Imagepicker thread={thread.id} />}
     />
   );
 }

@@ -6,8 +6,17 @@ import { IconButton, Colors } from "react-native-paper";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
-export default function Imagepicker() {
-  const [image, setImage] = useState(null);
+export default function Imagepicker({ thread }) {
+  const db = firebase.firestore();
+  const userEmail = firebase.auth().currentUser.email;
+  var user = firebase.auth().currentUser;
+  var name, email;
+
+  if (user != null) {
+    name = user.displayName;
+    email = user.email;
+  }
+  console.log("!!usernameimagepcikr", name);
 
   useEffect(() => {
     (async () => {
@@ -30,57 +39,21 @@ export default function Imagepicker() {
         if (!result.cancelled) {
           // User picked an image
           const { height, width, type, uri } = result;
-          return uriToBlob(uri);
+          db.collection("ChatRooms").doc(thread).collection("Messages").add({
+            createdAt: new Date().getTime(),
+            user: email,
+            name: name,
+            url: uri,
+          });
+          console.log("@@uri", uri);
         }
       })
-      .then((blob) => {
-        return uploadToFirebase(blob);
-      })
-      .then((snapshot) => {
-        console.log("##File uploaded");
-      })
+
       .catch((error) => {
         throw error;
       });
   };
-  const uriToBlob = (uri) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        // return the blob
-        resolve(xhr.response);
-      };
 
-      xhr.onerror = function () {
-        // something went wrong
-        reject(new Error("##uriToBlob failed"));
-      };
-      // this helps us get a blob
-      xhr.responseType = "blob";
-
-      xhr.open("GET", uri, true);
-
-      xhr.send(null);
-    });
-  };
-
-  const uploadToFirebase = (blob) => {
-    return new Promise((resolve, reject) => {
-      var storageRef = firebase.storage().ref();
-      storageRef
-        .child("uploads/photo.jpg")
-        .put(blob, {
-          contentType: "image/jpeg",
-        })
-        .then((snapshot) => {
-          //blob.close();
-          resolve(snapshot);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <IconButton

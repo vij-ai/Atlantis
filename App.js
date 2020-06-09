@@ -23,6 +23,7 @@ import FeaturedChatRooms from "./screens/FeaturedChatRooms";
 import Formbutton from "./components/Formbutton";
 import "firebase/firestore";
 import { decode, encode } from "base-64";
+import Signupscreen from "./screens/Signupscreen";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -114,6 +115,11 @@ export default function app() {
             name="Login"
             component={Loginscreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Sign up"
+            component={Signupscreen}
+            //options={{ headerShown: false }}
           />
 
           <Stack.Screen

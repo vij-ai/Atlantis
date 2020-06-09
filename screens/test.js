@@ -1,89 +1,55 @@
-import React from "react";
-import { TextInput, Button, Title } from "react-native-paper";
-import { View, Text, StyleSheet } from "react-native";
-import Forminput from "../components/Forminput";
-import { useState } from "react";
-import Formbutton from "../components/Formbutton";
+import React, { useState, useEffect } from "react";
+import { Button, Image, View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import { IconButton, Colors } from "react-native-paper";
 import * as firebase from "firebase";
-import ImagePicker from "react-native-image-picker";
+import "firebase/firestore";
 
-// const FIREBASE_REF_USERS = firebaseService.database().ref("Users");
+export default function ImagePickerExample() {
+  const db = firebase.firestore();
+  const [image, setImage] = useState(null);
 
-export default function Loginscreen({ navigation }) {
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  useEffect(() => {
+    (async () => {
+      if (Constants.platform.ios) {
+        const {
+          status,
+        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
 
-  const loginUser = async (email, password) => {
-    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      alert("login sucessful");
-      navigation.navigate("Atlantis");
-    } catch (error) {
-      alert("Email or password wrong", error);
-    }
-  };
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-  const signupUser = async (email, password) => {
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
-      alert("Sign up successful");
-      navigation.navigate("Atlantis");
-    } catch (error) {
-      alert("Type another Email or Password to Sign up", error);
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      db.collection("ChatRooms").add({
+        Images: image,
+      });
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Title style={styles.titleText}>
-        {" "}
-        Welcome to Lonely - The anonymous chat app{" "}
-      </Title>
-
-      <Forminput
-        labelname="Email"
-        value={Email}
-        autoCapitalize="none"
-        onChangeText={(useremail) => setEmail(useremail)}
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <IconButton
+        icon="camera"
+        color={Colors.red500}
+        size={20}
+        onPress={pickImage}
       />
-      <Forminput
-        labelname="Password"
-        value={Password}
-        secureTextEntry={true}
-        onChangeText={(userPassword) => setPassword(userPassword)}
-      />
-      <Formbutton
-        title="Log in"
-        modevalue="contained"
-        labelStyle={styles.loginButtonLabel}
-        onPress={() => loginUser(Email, Password)}
-      />
-      <Formbutton
-        title="Sign up"
-        modevalue="text"
-        uppercase={false}
-        labelStyle={styles.navButtonText}
-        onPress={() => signupUser(Email, Password)}
-      />
+      {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#f5f5f5",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  titleText: {
-    fontSize: 24,
-    marginBottom: 10,
-  },
-  loginButtonLabel: {
-    fontSize: 22,
-  },
-  navButtonText: {
-    fontSize: 16,
-  },
-});

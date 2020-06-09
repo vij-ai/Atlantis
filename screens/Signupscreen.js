@@ -8,24 +8,45 @@ import * as firebase from "firebase";
 
 // const FIREBASE_REF_USERS = firebaseService.database().ref("Users");
 
-export default function Loginscreen({ navigation }) {
+export default function Signupscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
 
-  const loginUser = async (email, password) => {
+  const signupUser = async (email, password, userName) => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      alert("login sucessful");
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = firebase.auth().currentUser;
+      if (user != null) {
+        user
+          .updateProfile({
+            displayName: userName,
+          })
+          .then(function () {
+            console.log("!!Update successful");
+          })
+          .catch(function (error) {
+            alert(error.message, error);
+          });
+        console.log("!!username", user.displayName);
+      }
+      alert("Sign up successful");
       navigation.navigate("Atlantis");
     } catch (error) {
-      alert("Email or password wrong", error);
+      alert(error.message, error);
     }
   };
 
   return (
     <View style={styles.container}>
       <Title style={styles.titleText}>XoXo the anonymous chat app</Title>
+
+      <Forminput
+        labelname="Username"
+        value={userName}
+        autoCapitalize="none"
+        onChangeText={(userName) => setUserName(userName)}
+      />
 
       <Forminput
         labelname="Email"
@@ -39,18 +60,13 @@ export default function Loginscreen({ navigation }) {
         secureTextEntry={true}
         onChangeText={(userPassword) => setPassword(userPassword)}
       />
-      <Formbutton
-        title="Log in"
-        modevalue="contained"
-        labelStyle={styles.loginButtonLabel}
-        onPress={() => loginUser(Email, Password)}
-      />
+
       <Formbutton
         title="Sign up"
-        modevalue="text"
+        modevalue="contained"
         uppercase={false}
         labelStyle={styles.navButtonText}
-        onPress={() => navigation.navigate("Sign up")}
+        onPress={() => signupUser(Email, Password, userName)}
       />
     </View>
   );
