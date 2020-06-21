@@ -14,17 +14,26 @@ import "firebase/firestore";
 import Loading from "../components/Loading";
 
 export default function FeaturedChatRooms({ navigation }) {
-  const ref = firebase.firestore().collection("ChatRooms");
+  const ref = firebase
+    .firestore()
+    .collection("ChatRooms")
+    .orderBy("lastActive", "desc");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   function Item({ id, ChatRoomName, navigation, jam }) {
-    //console.log("##cha", ChatRoomName);
+    console.log("##cha", ChatRoomName);
 
     return (
       <View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Chats", { thread: jam })}
+          onPress={() =>
+            navigation.navigate("Chats", {
+              thread: jam,
+              navigation,
+              ChatRoomName,
+            })
+          }
           style={styles.item}
         >
           <Text style={styles.title}>{ChatRoomName}</Text>

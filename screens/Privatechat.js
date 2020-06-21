@@ -5,28 +5,18 @@ import { GiftedChat } from "react-native-gifted-chat";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import Loading from "../components/Loading";
-import Imagepicker from "../components/Imagepicker";
-import Fab from "../components/Fab";
-import { NavigationContainer } from "@react-navigation/native";
-import Camerapicker from "../components/Camerapicker";
+import Imagepickerpriv from "../components/Imagepickerpriv";
+import Camerapickerpriv from "../components/Camerpickerpriv";
 
-export default function RoomScreen({ route, navigation }) {
+export default function Privatechat({ route, navigation }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { thread } = route.params;
-  console.log("!!thread", thread.id);
-  //console.log("!!navigation", navigation);
+  const otheruser = route.params.user._id;
+  const otherusername = route.params.user.name;
+  //console.log("!!privuser", route.params.user.name);
 
   const db = firebase.firestore();
-
-  const ref = firebase
-    .firestore()
-    .collection("ChatRooms")
-    .doc(thread.id)
-    .collection("Messages")
-    .orderBy("createdAt", "desc");
-  console.log("@@db", db);
 
   var user = firebase.auth().currentUser;
   var name, email;
@@ -35,12 +25,46 @@ export default function RoomScreen({ route, navigation }) {
     name = user.displayName;
     email = user.email;
   }
-  //console.log("!!usernameroomsc", name);
+
+  const otheruserID = otheruser;
+  const chateeID = email;
+  const chatIDpre = [];
+  chatIDpre.push(otheruserID);
+  chatIDpre.push(chateeID);
+  chatIDpre.sort();
+  const chatID = chatIDpre.join("_");
+
+  console.log("!!chatid", chatID);
+
+  db.collection("Personal").doc(email).collection(email).doc(otheruser).set({
+    _id: otheruser,
+    name: otherusername,
+    lastActive: new Date().getTime(),
+  });
+  db.collection("Personal")
+    .doc(otheruser)
+    .collection(otheruser)
+    .doc(email)
+    .set({
+      _id: email,
+      name: name,
+      lastActive: new Date().getTime(),
+    });
+
+  const ref = firebase
+
+    .firestore()
+    .collection("PrivateChat")
+    .doc(chatID)
+    .collection("Messages")
+
+    .orderBy("createdAt", "desc");
+  console.log("!!newuser", ref);
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;
 
-    db.collection("ChatRooms").doc(thread.id).collection("Messages").add({
+    db.collection("PrivateChat").doc(chatID).collection("Messages").add({
       text,
       createdAt: new Date().getTime(),
       user: email,
@@ -49,18 +73,6 @@ export default function RoomScreen({ route, navigation }) {
 
       // _id: userid,
     });
-    db.collection("ChatRooms")
-      .doc(thread.id)
-      .set(
-        {
-          latestMessage: {
-            text,
-            createdAt: new Date().getTime(),
-          },
-          lastActive: new Date().getTime(),
-        },
-        { merge: true }
-      );
   }
 
   useEffect(() => {
@@ -91,12 +103,11 @@ export default function RoomScreen({ route, navigation }) {
   if (loading) {
     return <Loading />;
   }
-
   function images() {
     return (
       <View style={{ flexDirection: "row" }}>
-        <Imagepicker thread={thread.id} />
-        <Camerapicker thread={thread.id} />
+        <Imagepickerpriv thread={chatID} />
+        <Camerapickerpriv thread={chatID} />
       </View>
     );
   }
@@ -108,18 +119,14 @@ export default function RoomScreen({ route, navigation }) {
       user={{ _id: email, name: name }}
       minComposerHeight={46.7}
       alignTop={true}
-      // isTyping={true}
+      isTyping={true}
       renderUsernameOnMessage={true}
+      //scrollToBottom={true}
       keyboardShouldPersistTaps={false}
       //bottomOffset={240}
       renderActions={images}
-      //renderActions={() => <Imagepicker thread={thread.id} />}
       showAvatarForEveryMessage={true}
-      onPressAvatar={(user) => {
-        console.log("!!ueserid", user);
-        navigation.navigate("Privatechat", { user });
-      }}
-      //infiniteScroll={true}
+      infiniteScroll={true}
     />
   );
 }

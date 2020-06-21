@@ -1,40 +1,67 @@
-import * as React from "react";
-import { View } from "react-native";
-import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
+import React from "react";
 
-export default class OverFlowMenu extends React.Component {
-  state = {
-    visible: false,
+import { View, Text, TouchableOpacity } from "react-native";
+import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
+import AddRoomScreen from "../screens/Addroomscreen";
+import { NavigationContainer } from "@react-navigation/native";
+//import icon from "../assets/menu.png";
+
+export default class OverflowMenu extends React.PureComponent {
+  _menu = null;
+  navigation = this.props;
+
+  setMenuRef = (ref) => {
+    this._menu = ref;
   };
 
-  _openMenu = () => this.setState({ visible: true });
+  hideMenu = () => {
+    this._menu.hide();
+  };
 
-  _closeMenu = () => this.setState({ visible: false });
+  showMenu = () => {
+    this._menu.show();
+  };
+
+  // newChatRoom = (navigation) => {
+  //   this._menu.hide();
+  //   {
+  //     navigation.navigate("Addroom");
+  //   }
+  // };
 
   render() {
+    const { navigation } = this.props;
+    // newChatRoom = () => {
+    //   this._menu.hide();
+    //   {
+    //     navigation.navigate("Addroom");
+    //   }
+    // };
+
     return (
-      <Provider>
-        <View
-          style={{
-            paddingTop: 10,
-            // flexDirection: "row",
-            // justifyContent: "center",
-          }}
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          marginRight: 5,
+        }}
+      >
+        <Menu
+          ref={this.setMenuRef}
+          button={<Text onPress={this.showMenu}>Show menu</Text>}
         >
-          <Menu
-            visible={this.state.visible}
-            onDismiss={this._closeMenu}
-            anchor={
-              <Button onPress={this._openMenu}>asdasds asdasd Menu</Button>
-            }
-          >
-            <Menu.Item onPress={() => {}} title="Item 1" />
-            <Menu.Item onPress={() => {}} title="Item 2" />
-            <Divider />
-            <Menu.Item onPress={() => {}} title="Item 3" />
-          </Menu>
-        </View>
-      </Provider>
+          <MenuItem onPress={() => navigation.navigate("Addroom")}>
+            New Chatroom
+          </MenuItem>
+          {/* //<MenuItem onPress={this.newChatRoom}>New private message</MenuItem> */}
+          <MenuItem onPress={this.hideMenu} disabled>
+            Menu item 3
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem onPress={this.hideMenu}>Menu item 4</MenuItem>
+        </Menu>
+      </View>
     );
   }
 }

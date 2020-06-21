@@ -17,6 +17,8 @@ export default function AddRoomScreen({ navigation }) {
     // });
     db.collection("ChatRooms").add({
       ChatRoomName: roomName,
+      createdAt: new Date().getTime(),
+      lastActive: new Date().getTime(),
     });
     alert("Chat room successfully added");
     navigation.goBack();

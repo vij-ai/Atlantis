@@ -21,18 +21,16 @@ export default function Imagepicker({ thread }) {
   useEffect(() => {
     (async () => {
       if (Constants.platform.ios) {
-        const {
-          status,
-        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
         if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
+          alert("Sorry, we need camera permissions to make this work!");
         }
       }
     })();
   }, []);
 
   const pickImage = async () => {
-    ImagePicker.launchImageLibraryAsync({
+    ImagePicker.launchCameraAsync({
       mediaTypes: "Images",
     })
       .then((result) => {
@@ -63,7 +61,7 @@ export default function Imagepicker({ thread }) {
   return (
     <View>
       <IconButton
-        icon="camera-burst"
+        icon="camera"
         color={Colors.red500}
         size={20}
         onPress={pickImage}

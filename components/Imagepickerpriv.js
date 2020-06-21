@@ -6,7 +6,7 @@ import { IconButton, Colors } from "react-native-paper";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
-export default function Imagepicker({ thread }) {
+export default function Imagepickerpriv({ thread }) {
   const db = firebase.firestore();
   const userEmail = firebase.auth().currentUser.email;
   var user = firebase.auth().currentUser;
@@ -39,19 +39,13 @@ export default function Imagepicker({ thread }) {
         if (!result.cancelled) {
           // User picked an image
           const { height, width, type, uri } = result;
-          db.collection("ChatRooms").doc(thread).collection("Messages").add({
+          db.collection("PrivateChat").doc(thread).collection("Messages").add({
             createdAt: new Date().getTime(),
             user: email,
             name: name,
             url: uri,
           });
           console.log("@@uri", uri);
-          db.collection("ChatRooms").doc(thread).set(
-            {
-              lastActive: new Date().getTime(),
-            },
-            { merge: true }
-          );
         }
       })
 

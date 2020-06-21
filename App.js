@@ -1,26 +1,28 @@
 // In App.js in a new project
 
 import * as React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
+import Formbutton from "./components/Formbutton";
 
 import * as firebase from "firebase";
 
-import { Provider as PaperProvider, IconButton } from "react-native-paper";
+import {
+  Provider as PaperProvider,
+  IconButton,
+  Title,
+} from "react-native-paper";
 
-import NewOverflowMenu from "./components/NewOverflowMenu";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import RoomScreen from "./screens/Roomscreen";
 import AddRoomScreen from "./screens/Addroomscreen";
-import { Button, Paragraph, Menu, Divider, Provider } from "react-native-paper";
-import { useState } from "react";
+
 import FeaturedChatRooms from "./screens/FeaturedChatRooms";
-import Formbutton from "./components/Formbutton";
+
 import "firebase/firestore";
 import { decode, encode } from "base-64";
 import Signupscreen from "./screens/Signupscreen";
@@ -35,6 +37,8 @@ if (!global.atob) {
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
+import OverFlowMenu from "./components/OverFlowMenu";
+import Privatechat from "./screens/Privatechat";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
@@ -110,7 +114,7 @@ export default function app() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Atlantis">
+        <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
             name="Login"
             component={Loginscreen}
@@ -136,11 +140,28 @@ export default function app() {
                   uppercase={false}
                 />
               ),
-              //<NewOverflowMenu />,
+              // <OverFlowMenu navigation={navigation} />
             })}
           />
-          <Stack.Screen name="Chats" component={RoomScreen} />
-          <Stack.Screen name="Addroom" component={AddRoomScreen} />
+          <Stack.Screen
+            name="Chats"
+            component={RoomScreen}
+            options={({ navigation, route }) => ({
+              title: route.params.ChatRoomName,
+            })}
+          />
+          <Stack.Screen
+            name="Addroom"
+            component={AddRoomScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Privatechat"
+            component={Privatechat}
+            options={({ navigation, route }) => ({
+              title: route.params.user.name,
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

@@ -39,7 +39,8 @@ export default function Signupscreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Title style={styles.titleText}>XoXo the anonymous chat app</Title>
+      <Title style={styles.titleText}>XOXO</Title>
+      <Title style={styles.titleText}>The anonymous chat app</Title>
 
       <Forminput
         labelname="Username"

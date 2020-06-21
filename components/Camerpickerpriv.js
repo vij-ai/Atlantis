@@ -6,7 +6,7 @@ import { IconButton, Colors } from "react-native-paper";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
-export default function Imagepicker({ thread }) {
+export default function Imagepickerpriv({ thread }) {
   const db = firebase.firestore();
   const userEmail = firebase.auth().currentUser.email;
   var user = firebase.auth().currentUser;
@@ -23,7 +23,7 @@ export default function Imagepicker({ thread }) {
       if (Constants.platform.ios) {
         const {
           status,
-        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        } = await await ImagePicker.requestCameraPermissionsAsync();
         if (status !== "granted") {
           alert("Sorry, we need camera roll permissions to make this work!");
         }
@@ -32,26 +32,20 @@ export default function Imagepicker({ thread }) {
   }, []);
 
   const pickImage = async () => {
-    ImagePicker.launchImageLibraryAsync({
+    ImagePicker.launchCameraAsync({
       mediaTypes: "Images",
     })
       .then((result) => {
         if (!result.cancelled) {
           // User picked an image
           const { height, width, type, uri } = result;
-          db.collection("ChatRooms").doc(thread).collection("Messages").add({
+          db.collection("PrivateChat").doc(thread).collection("Messages").add({
             createdAt: new Date().getTime(),
             user: email,
             name: name,
             url: uri,
           });
           console.log("@@uri", uri);
-          db.collection("ChatRooms").doc(thread).set(
-            {
-              lastActive: new Date().getTime(),
-            },
-            { merge: true }
-          );
         }
       })
 
@@ -63,7 +57,7 @@ export default function Imagepicker({ thread }) {
   return (
     <View>
       <IconButton
-        icon="camera-burst"
+        icon="camera"
         color={Colors.red500}
         size={20}
         onPress={pickImage}
