@@ -5,10 +5,11 @@ import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
 import AddRoomScreen from "../screens/Addroomscreen";
 import { NavigationContainer } from "@react-navigation/native";
 //import icon from "../assets/menu.png";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 export default class OverflowMenu extends React.PureComponent {
   _menu = null;
-  navigation = this.props;
 
   setMenuRef = (ref) => {
     this._menu = ref;
@@ -22,21 +23,8 @@ export default class OverflowMenu extends React.PureComponent {
     this._menu.show();
   };
 
-  // newChatRoom = (navigation) => {
-  //   this._menu.hide();
-  //   {
-  //     navigation.navigate("Addroom");
-  //   }
-  // };
-
   render() {
     const { navigation } = this.props;
-    // newChatRoom = () => {
-    //   this._menu.hide();
-    //   {
-    //     navigation.navigate("Addroom");
-    //   }
-    // };
 
     return (
       <View
@@ -44,7 +32,7 @@ export default class OverflowMenu extends React.PureComponent {
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
-          marginRight: 5,
+          marginRight: 10,
         }}
       >
         <Menu
@@ -54,12 +42,22 @@ export default class OverflowMenu extends React.PureComponent {
           <MenuItem onPress={() => navigation.navigate("Addroom")}>
             New Chatroom
           </MenuItem>
-          {/* //<MenuItem onPress={this.newChatRoom}>New private message</MenuItem> */}
-          <MenuItem onPress={this.hideMenu} disabled>
-            Menu item 3
-          </MenuItem>
           <MenuDivider />
-          <MenuItem onPress={this.hideMenu}>Menu item 4</MenuItem>
+          <MenuItem
+            onPress={() => {
+              firebase
+                .auth()
+                .signOut()
+                .then(function () {
+                  navigation.navigate("Login");
+                })
+                .catch(function (error) {
+                  // An error happened.
+                });
+            }}
+          >
+            Log out
+          </MenuItem>
         </Menu>
       </View>
     );

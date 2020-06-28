@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "Lonely",
-    "icon": "./assets/icon.png",
+    "name": "Buda",
+    "icon": "../assets/icon.png",
+
     "version": "1.0.0",
     "slug": "Atlantis",
 
     "android": {
-      "package": "com.yourcompany.lonely",
-      "versionCode": 1
+      "package": "com.yourcompany.Buda",
+      "versionCode": 2
     }
   }
 }

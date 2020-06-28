@@ -39,6 +39,7 @@ import { YellowBox } from "react-native";
 import _ from "lodash";
 import OverFlowMenu from "./components/OverFlowMenu";
 import Privatechat from "./screens/Privatechat";
+import Terms from "./screens/Terms";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
@@ -67,8 +68,8 @@ function Home() {
         },
       }}
     >
-      <tab.Screen name="Featured" component={FeaturedChatRooms} />
-      <tab.Screen name="My chats" component={Mychats} />
+      <tab.Screen name=" rooms" component={FeaturedChatRooms} />
+      <tab.Screen name="Private chats" component={Mychats} />
     </tab.Navigator>
   );
 }
@@ -81,7 +82,7 @@ function Logo() {
       <Image
         source={{
           uri:
-            "https://see.fontimg.com/api/renderfont4/8VA2/eyJyIjoiZnMiLCJoIjo2NSwidyI6MTAwMCwiZnMiOjY1LCJmZ2MiOiIjMDAwMDAwIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/bG9uZWx5/quite-magical-regular.png",
+            "https://see.fontimg.com/api/renderfont4/3zRBM/eyJyIjoiZnMiLCJoIjo2NSwidyI6MTAwMCwiZnMiOjY1LCJmZ2MiOiIjMDAwMDAwIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/QnVkYQ/attack-graffiti.png",
         }}
         style={{
           width: 100,
@@ -133,14 +134,12 @@ export default function app() {
               headerTitle: false,
               //headerTitleStyle: { fontweight: "bold" },
               headerLeft: () => <Logo />,
-              headerRight: () => (
-                <Formbutton
-                  title="New Chatroom"
-                  onPress={() => navigation.navigate("Addroom")}
-                  uppercase={false}
-                />
-              ),
-              // <OverFlowMenu navigation={navigation} />
+              headerRight: () => <OverFlowMenu navigation={navigation} />,
+              // <Formbutton
+              //   title="New Chatroom"
+              //   onPress={() => navigation.navigate("Addroom")}
+              //   uppercase={false}
+              // />
             })}
           />
           <Stack.Screen
@@ -161,6 +160,11 @@ export default function app() {
             options={({ navigation, route }) => ({
               title: route.params.user.name,
             })}
+          />
+          <Stack.Screen
+            name="Terms"
+            component={Terms}
+            options={{ title: "Terms and Privacy " }}
           />
         </Stack.Navigator>
       </NavigationContainer>

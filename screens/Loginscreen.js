@@ -25,7 +25,7 @@ export default function Loginscreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Title style={styles.titleText}>XOXO </Title>
+      <Title style={styles.titleText}>Buda </Title>
       <Title style={styles.titleText}> The anonymous chat app</Title>
       <Forminput
         labelname="Email"

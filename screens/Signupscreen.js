@@ -6,8 +6,6 @@ import { useState } from "react";
 import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
 
-// const FIREBASE_REF_USERS = firebaseService.database().ref("Users");
-
 export default function Signupscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -39,7 +37,7 @@ export default function Signupscreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Title style={styles.titleText}>XOXO</Title>
+      <Title style={styles.titleText}>Buda</Title>
       <Title style={styles.titleText}>The anonymous chat app</Title>
 
       <Forminput
@@ -61,6 +59,15 @@ export default function Signupscreen({ navigation }) {
         secureTextEntry={true}
         onChangeText={(userPassword) => setPassword(userPassword)}
       />
+      <View style={{ flexDirection: "row" }}>
+        <Text>Via sigining up you accept the </Text>
+        <Text
+          style={{ textDecorationLine: "underline" }}
+          onPress={() => navigation.navigate("Terms")}
+        >
+          Terms and privay policy
+        </Text>
+      </View>
 
       <Formbutton
         title="Sign up"
@@ -77,8 +84,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f5f5f5",
     flex: 1,
-    justifyContent: "center",
+    //justifyContent: "center",
     alignItems: "center",
+    marginTop: 30,
   },
   titleText: {
     fontSize: 24,
@@ -89,5 +97,8 @@ const styles = StyleSheet.create({
   },
   navButtonText: {
     fontSize: 16,
+  },
+  smallerText: {
+    fontSize: 12,
   },
 });
