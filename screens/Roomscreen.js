@@ -94,8 +94,15 @@ export default function RoomScreen({ route, navigation }) {
 
   function images() {
     return (
-      <View style={{ flexDirection: "row" }}>
+      <View
+        style={{
+          //justifyContent: "center",
+          //alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
         <Imagepicker thread={thread.id} />
+
         <Camerapicker thread={thread.id} />
       </View>
     );
