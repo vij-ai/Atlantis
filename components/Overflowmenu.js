@@ -39,10 +39,10 @@ export default class OverflowMenu extends React.PureComponent {
           ref={this.setMenuRef}
           button={<Text onPress={this.showMenu}>Show menu</Text>}
         >
-          <MenuItem onPress={() => navigation.navigate("Addroom")}>
+          {/* <MenuItem onPress={() => navigation.navigate("Addroom")}>
             New Chatroom
-          </MenuItem>
-          <MenuDivider />
+          </MenuItem> */}
+          {/* <MenuDivider /> */}
           <MenuItem
             onPress={() => {
               firebase
