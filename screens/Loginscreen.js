@@ -21,14 +21,11 @@ export default function Loginscreen({ navigation }) {
   const loginUser = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      // const idTokenResult = await firebase
-      //   .auth()
-      //   .currentUser.getIdTokenResult();
-      // console.log("User JWT: ", idTokenResult.token);
+      //firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
       navigation.navigate("Atlantis");
     } catch (error) {
-      alert("Email or password wrong", error);
+      alert(error.message, error);
     }
   };
 
@@ -54,7 +51,7 @@ export default function Loginscreen({ navigation }) {
           <Image
             source={{
               uri:
-                "https://see.fontimg.com/api/renderfont4/3zRBM/eyJyIjoiZnMiLCJoIjoxMTgsInciOjEwMDAsImZzIjoxMTgsImZnYyI6IiNGRkZBRkEiLCJiZ2MiOiIjMDAwMDAwIiwidCI6MX0/QnVkYQ/attack-graffiti.png",
+                "https://see.fontimg.com/api/renderfont4/3zRBM/eyJyIjoiZnMiLCJoIjoxNzcsInciOjEwMDAsImZzIjoxNzcsImZnYyI6IiNGREZERkQiLCJiZ2MiOiIjRkZGRkZGIiwidCI6MX0/YnVkYQ/attack-graffiti.png",
             }}
             style={{
               width: 200,

@@ -52,25 +52,7 @@ export default function Mychats({ navigation }) {
       </View>
     );
   }
-  function nothingToShow() {
-    return (
-      <View>
-        <Text>What is happening ???</Text>
-        <Image
-          source={{
-            uri:
-              "https://see.fontimg.com/api/renderfont4/3zRBM/eyJyIjoiZnMiLCJoIjoxMTgsInciOjEwMDAsImZzIjoxMTgsImZnYyI6IiNGRkZBRkEiLCJiZ2MiOiIjMDAwMDAwIiwidCI6MX0/QnVkYQ/attack-graffiti.png",
-          }}
-          style={{
-            width: 200,
-            height: 80,
-            //marginHorizontal: 15,
-            resizeMode: "stretch",
-          }}
-        />
-      </View>
-    );
-  }
+
   useEffect(() => {
     const unsubscribe = ref.onSnapshot((querySnapshot) => {
       const list = querySnapshot.docs.map((documentSnapshot) => {
