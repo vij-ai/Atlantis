@@ -32,11 +32,7 @@ export default function Mychats({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  console.log("##ref", ref);
-
   function Item({ id, navigation, user }) {
-    console.log("##jam", user);
-
     return (
       <View>
         <TouchableOpacity

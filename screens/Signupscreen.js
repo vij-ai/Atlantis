@@ -20,13 +20,10 @@ export default function Signupscreen({ navigation }) {
           .updateProfile({
             displayName: userName,
           })
-          .then(function () {
-            console.log("!!Update successful");
-          })
+          .then(function () {})
           .catch(function (error) {
             alert(error.message, error);
           });
-        console.log("!!username", user.displayName);
       }
       alert("Sign up successful");
       navigation.navigate("Atlantis");

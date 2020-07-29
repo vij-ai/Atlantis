@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import Loading from "../components/Loading";
 import Imagepicker from "../components/Imagepicker";
-import Fab from "../components/Fab";
+
 import { NavigationContainer } from "@react-navigation/native";
 import Camerapicker from "../components/Camerapicker";
 
@@ -15,8 +15,6 @@ export default function RoomScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
 
   const { thread } = route.params;
-  console.log("!!thread", thread.id);
-  //console.log("!!navigation", navigation);
 
   const db = firebase.firestore();
 
@@ -26,7 +24,6 @@ export default function RoomScreen({ route, navigation }) {
     .doc(thread.id)
     .collection("Messages")
     .orderBy("createdAt", "desc");
-  console.log("@@db", db);
 
   var user = firebase.auth().currentUser;
   var name, email;
@@ -35,7 +32,6 @@ export default function RoomScreen({ route, navigation }) {
     name = user.displayName;
     email = user.email;
   }
-  //console.log("!!usernameroomsc", name);
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;
@@ -67,7 +63,6 @@ export default function RoomScreen({ route, navigation }) {
     return ref.onSnapshot((querySnapshot) => {
       const list = [];
       querySnapshot.forEach((doc) => {
-        console.log("@@doc", doc.id);
         const ChatMessages = doc.data();
         list.push({
           _id: doc.id,
@@ -96,8 +91,6 @@ export default function RoomScreen({ route, navigation }) {
     return (
       <View
         style={{
-          //justifyContent: "center",
-          //alignItems: "center",
           flexDirection: "row",
         }}
       >
@@ -123,10 +116,8 @@ export default function RoomScreen({ route, navigation }) {
       //renderActions={() => <Imagepicker thread={thread.id} />}
       showAvatarForEveryMessage={true}
       onPressAvatar={(user) => {
-        console.log("!!ueserid", user);
         navigation.navigate("Privatechat", { user });
       }}
-      //infiniteScroll={true}
     />
   );
 }

@@ -14,7 +14,6 @@ export default function Privatechat({ route, navigation }) {
 
   const otheruser = route.params.user._id;
   const otherusername = route.params.user.name;
-  //console.log("!!privuser", route.params.user.name);
 
   const db = firebase.firestore();
 
@@ -33,8 +32,6 @@ export default function Privatechat({ route, navigation }) {
   chatIDpre.push(chateeID);
   chatIDpre.sort();
   const chatID = chatIDpre.join("_");
-
-  console.log("!!chatid", chatID);
 
   db.collection("Personal").doc(email).collection(email).doc(otheruser).set({
     _id: otheruser,
@@ -59,7 +56,6 @@ export default function Privatechat({ route, navigation }) {
     .collection("Messages")
 
     .orderBy("createdAt", "desc");
-  console.log("!!newuser", ref);
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;
@@ -79,7 +75,6 @@ export default function Privatechat({ route, navigation }) {
     return ref.onSnapshot((querySnapshot) => {
       const list = [];
       querySnapshot.forEach((doc) => {
-        console.log("@@doc", doc.id);
         const ChatMessages = doc.data();
         list.push({
           _id: doc.id,

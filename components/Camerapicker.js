@@ -16,7 +16,6 @@ export default function Imagepicker({ thread }) {
     name = user.displayName;
     email = user.email;
   }
-  //console.log("!!usernameimagepcikr", name);
 
   useEffect(() => {
     (async () => {
@@ -32,6 +31,7 @@ export default function Imagepicker({ thread }) {
   const pickImage = async () => {
     ImagePicker.launchCameraAsync({
       mediaTypes: "Images",
+      base64: true,
     })
       .then((result) => {
         if (!result.cancelled) {
@@ -43,7 +43,7 @@ export default function Imagepicker({ thread }) {
             name: name,
             url: uri,
           });
-          console.log("@@uri", uri);
+
           db.collection("ChatRooms").doc(thread).set(
             {
               lastActive: new Date().getTime(),

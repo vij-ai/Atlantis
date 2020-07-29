@@ -16,7 +16,6 @@ export default function Imagepickerpriv({ thread }) {
     name = user.displayName;
     email = user.email;
   }
-  //console.log("!!usernameimagepcikr", name);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +33,7 @@ export default function Imagepickerpriv({ thread }) {
   const pickImage = async () => {
     ImagePicker.launchCameraAsync({
       mediaTypes: "Images",
+      base64: true,
     })
       .then((result) => {
         if (!result.cancelled) {
@@ -45,7 +45,6 @@ export default function Imagepickerpriv({ thread }) {
             name: name,
             url: uri,
           });
-          console.log("@@uri", uri);
         }
       })
 

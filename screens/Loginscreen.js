@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
 import WavyHeader from "../components/WavyHeader";
+import Loading from "../components/Loading";
 
 export default function Loginscreen({ navigation }) {
   const [Email, setEmail] = useState("");
@@ -21,7 +22,6 @@ export default function Loginscreen({ navigation }) {
   const loginUser = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      //firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
       navigation.navigate("Atlantis");
     } catch (error) {

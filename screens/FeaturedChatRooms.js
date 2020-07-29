@@ -12,6 +12,7 @@ import * as firebase from "firebase";
 import { useEffect, useState } from "react";
 import "firebase/firestore";
 import Loading from "../components/Loading";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function FeaturedChatRooms({ navigation }) {
   const ref = firebase
@@ -22,11 +23,9 @@ export default function FeaturedChatRooms({ navigation }) {
   const [data, setData] = useState([]);
 
   function Item({ id, ChatRoomName, navigation, jam }) {
-    console.log("##cha", ChatRoomName);
-
     return (
       <View>
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           onPress={() =>
             navigation.navigate("Chats", {
               thread: jam,
@@ -37,7 +36,7 @@ export default function FeaturedChatRooms({ navigation }) {
           style={styles.item}
         >
           <Text style={styles.title}>{ChatRoomName}</Text>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
