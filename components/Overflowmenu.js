@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 //import icon from "../assets/menu.png";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class OverflowMenu extends React.PureComponent {
   _menu = null;
@@ -44,16 +45,30 @@ export default class OverflowMenu extends React.PureComponent {
           </MenuItem> */}
           {/* <MenuDivider /> */}
           <MenuItem
-            onPress={() => {
-              firebase
-                .auth()
-                .signOut()
-                .then(function () {
+            onPress={async () => {
+              {
+                try {
+                  //await AsyncStorage.clear();
+                  const keys = await AsyncStorage.getAllKeys();
+                  await AsyncStorage.multiRemove(keys);
+                  alert("Storage successfully cleared!");
+                  console.log("## cleared");
                   navigation.navigate("Login");
-                })
-                .catch(function (error) {
-                  // An error happened.
-                });
+                } catch (e) {
+                  console.log("## un cleared");
+                  alert("Failed to clear the async storage.");
+                }
+              }
+
+              // firebase
+              //   .auth()
+              //   .signOut()
+              //   .then(function () {
+              //     navigation.navigate("Login");
+              //   })
+              //   .catch(function (error) {
+              //     // An error happened.
+              //   });
             }}
           >
             Log out

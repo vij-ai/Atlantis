@@ -9,8 +9,33 @@ import Imagepicker from "../components/Imagepicker";
 
 import { NavigationContainer } from "@react-navigation/native";
 import Camerapicker from "../components/Camerapicker";
+import AsyncStorage from "@react-native-community/async-storage";
+
+var email = "null";
+var name = "null";
+
+const getData = async () => {
+  try {
+    email = await AsyncStorage.getItem("userEmail");
+    name = await AsyncStorage.getItem("userName");
+    if (email != null) {
+      console.log("##emailworking in roomscreen", name);
+    } else {
+      email = "error";
+      console.log("##email not working in chats", email);
+    }
+  } catch (e) {
+    //return isLoggedIn;
+    // error reading value
+  }
+};
 
 export default function RoomScreen({ route, navigation }) {
+  useEffect(() => {
+    getData();
+    //console.log("##useeffect", isLoggedIn);
+  }, []);
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,13 +50,13 @@ export default function RoomScreen({ route, navigation }) {
     .collection("Messages")
     .orderBy("createdAt", "desc");
 
-  var user = firebase.auth().currentUser;
-  var name, email;
+  // var user = firebase.auth().currentUser;
+  // var name, email;
 
-  if (user != null) {
-    name = user.displayName;
-    email = user.email;
-  }
+  // if (user != null) {
+  //   name = user.displayName;
+  //   email = user.email;
+  // }
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;

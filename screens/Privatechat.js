@@ -7,8 +7,32 @@ import "firebase/firestore";
 import Loading from "../components/Loading";
 import Imagepickerpriv from "../components/Imagepickerpriv";
 import Camerapickerpriv from "../components/Camerpickerpriv";
+import AsyncStorage from "@react-native-community/async-storage";
+
+var email = "null";
+var name = "null";
+
+const getData = async () => {
+  try {
+    email = await AsyncStorage.getItem("userEmail");
+    name = await AsyncStorage.getItem("userName");
+    if (email != null) {
+      console.log("##emailworking in privchat", name);
+    } else {
+      email = "error";
+      console.log("##email not working in chats", email);
+    }
+  } catch (e) {
+    //return isLoggedIn;
+    // error reading value
+  }
+};
 
 export default function Privatechat({ route, navigation }) {
+  useEffect(() => {
+    getData();
+    //console.log("##useeffect", isLoggedIn);
+  }, []);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,13 +41,13 @@ export default function Privatechat({ route, navigation }) {
 
   const db = firebase.firestore();
 
-  var user = firebase.auth().currentUser;
-  var name, email;
+  // var user = firebase.auth().currentUser;
+  // var name, email;
 
-  if (user != null) {
-    name = user.displayName;
-    email = user.email;
-  }
+  // if (user != null) {
+  //   name = user.displayName;
+  //   email = user.email;
+  // }
 
   const otheruserID = otheruser;
   const chateeID = email;

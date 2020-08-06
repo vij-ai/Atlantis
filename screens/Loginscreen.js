@@ -14,15 +14,34 @@ import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
 import WavyHeader from "../components/WavyHeader";
 import Loading from "../components/Loading";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Loginscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
+  const storeLoginData = async (email, userName) => {
+    try {
+      await AsyncStorage.setItem("userEmail", email);
+      await AsyncStorage.setItem("userName", userName);
+      console.log("##asy username", userName);
+      console.log("##async email", email);
+    } catch (e) {
+      // saving error
+    }
+  };
+
   const loginUser = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
 
+      var user = firebase.auth().currentUser;
+      var name;
+
+      if (user != null) {
+        name = user.displayName;
+      }
+      storeLoginData(email, name);
       navigation.navigate("Atlantis");
     } catch (error) {
       alert(error.message, error);

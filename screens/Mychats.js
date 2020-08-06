@@ -13,22 +13,63 @@ import * as firebase from "firebase";
 import { useEffect, useState } from "react";
 import "firebase/firestore";
 import Loading from "../components/Loading";
+import AsyncStorage from "@react-native-community/async-storage";
+
+var email = null;
+var name = null;
+
+// if (email == "null") {
+//   getData;
+// }
 
 export default function Mychats({ navigation }) {
-  const db = firebase.firestore();
-  var user = firebase.auth().currentUser;
-  var name, email;
+  // useEffect(() => {
+  //   getData();
+  //   //console.log("##useeffect", isLoggedIn);
+  // }, []);
 
-  if (user != null) {
-    name = user.displayName;
-    email = user.email;
-  }
+  const db = firebase.firestore();
 
   var ref = db
     .collection("Personal")
     .doc(email)
     .collection(email)
     .orderBy("lastActive", "desc");
+
+  // var user = firebase.auth().currentUser;
+  // var name, email;
+
+  // if (user != null) {
+  //   name = user.displayName;
+  //   email = user.email;
+  // } else {
+  //   email = "error";
+  // }
+  // console.log("##name", name);
+  // console.log("##email", email);
+
+  const getData = async () => {
+    try {
+      email = await AsyncStorage.getItem("userEmail");
+      name = await AsyncStorage.getItem("userName");
+      if (email != null) {
+        console.log("##emailworking in chats", email);
+        ref = db
+          .collection("Personal")
+          .doc(email)
+          .collection(email)
+          .orderBy("lastActive", "desc");
+        return true;
+      } else {
+        console.log("##email not working in chats", email);
+        return false;
+      }
+    } catch (e) {
+      //return isLoggedIn;
+      // error reading value
+    }
+  };
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -48,30 +89,32 @@ export default function Mychats({ navigation }) {
       </View>
     );
   }
+  if (getData()) {
+    useEffect(() => {
+      const unsubscribe = ref.onSnapshot((querySnapshot) => {
+        const list = querySnapshot.docs.map((documentSnapshot) => {
+          return {
+            id: documentSnapshot.id,
 
-  useEffect(() => {
-    const unsubscribe = ref.onSnapshot((querySnapshot) => {
-      const list = querySnapshot.docs.map((documentSnapshot) => {
-        return {
-          id: documentSnapshot.id,
+            ...documentSnapshot.data(),
+          };
+        });
 
-          ...documentSnapshot.data(),
-        };
+        setData(list);
+
+        if (loading) {
+          setLoading(false);
+        }
       });
 
-      setData(list);
-
-      if (loading) {
-        setLoading(false);
-      }
-    });
-
-    /**
-     * unsubscribe listener
-     */
-    return () => unsubscribe();
-  }, []);
-
+      /**
+       * unsubscribe listener
+       */
+      return () => unsubscribe();
+    }, []);
+  } else {
+    console.log("##error");
+  }
   if (loading) {
     return <Loading />;
   }

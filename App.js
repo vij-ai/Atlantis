@@ -5,7 +5,7 @@ import { View, StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
+import { useEffect } from "react";
 import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
 import Formbutton from "./components/Formbutton";
@@ -26,6 +26,7 @@ import FeaturedChatRooms from "./screens/FeaturedChatRooms";
 import "firebase/firestore";
 import { decode, encode } from "base-64";
 import Signupscreen from "./screens/Signupscreen";
+import AsyncStorage from "@react-native-community/async-storage";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -37,15 +38,47 @@ if (!global.atob) {
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
-import OverFlowMenu from "./components/OverFlowMenu";
 import Privatechat from "./screens/Privatechat";
+import OverflowMenu from "./components/OverFlowMenu";
+
 import Terms from "./screens/Terms";
+import Loading from "./components/Loading";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
 console.warn = (message) => {
   if (message.indexOf("Setting a timer") <= -1) {
     _console.warn(message);
+  }
+};
+
+var isLoggedIn = false;
+
+// function isLoading() {
+//   if (isLoggedIn == null) {
+//     return <Loading />;
+//   }
+// }
+//Store data
+const getData = async () => {
+  console.log("##getvalue", isLoggedIn);
+  try {
+    const value = await AsyncStorage.getItem("userEmail");
+    if (value != null) {
+      isLoggedIn = true;
+      console.log("##getvalue", isLoggedIn);
+      console.log("##value", value);
+      return isLoggedIn;
+
+      // value previously stored
+    } else {
+      isLoggedIn = false;
+      console.log("##getvalue", isLoggedIn);
+      return isLoggedIn;
+    }
+  } catch (e) {
+    //return isLoggedIn;
+    // error reading value
   }
 };
 
@@ -94,7 +127,6 @@ function Logo() {
     </View>
   );
 }
-var isLoggedIn = false;
 export default function app() {
   function initializeFirebase() {
     var firebaseConfig = {
@@ -115,17 +147,23 @@ export default function app() {
     initializeFirebase();
   }
 
-  var user = firebase.auth().currentUser;
+  console.log("##usersignedin1", isLoggedIn);
 
-  var isLoggedIn = false;
+  useEffect(() => {
+    getData();
+    console.log("##useeffect", isLoggedIn);
+  }, []);
 
-  if (user) {
-    console.log("##usersignedin", user);
-    isLoggedIn = true;
-  } else {
-    isLoggedIn = false;
-    console.log("##usernotsignedin", isLoggedIn);
-  }
+  // if (!isLoggedIn) {
+  //   var user = firebase.auth().currentUser;
+  //   if (user) {
+  //     console.log("##usersignedin", user);
+  //     isLoggedIn = true;
+  //   } else {
+  //     isLoggedIn = false;
+  //     console.log("##usernotsignedin", isLoggedIn);
+  //   }
+  // }
 
   return (
     <PaperProvider>
@@ -140,7 +178,7 @@ export default function app() {
                   headerTitle: false,
                   //headerTitleStyle: { fontweight: "bold" },
                   headerLeft: () => <Logo />,
-                  headerRight: () => <OverFlowMenu navigation={navigation} />,
+                  headerRight: () => <OverflowMenu navigation={navigation} />,
                   // <Formbutton
                   //   title="New Chatroom"
                   //   onPress={() => navigation.navigate("Addroom")}
@@ -167,13 +205,28 @@ export default function app() {
                   title: route.params.user.name,
                 })}
               />
+              <Stack.Screen
+                name="Login"
+                component={Loginscreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Sign up"
+                component={Signupscreen}
+                //options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Terms"
+                component={Terms}
+                options={{ title: "Terms and Privacy " }}
+              />
             </>
           ) : (
             <>
               <Stack.Screen
                 name="Login"
                 component={Loginscreen}
-                options={{ headerShown: false }}
+                //options={{ headerShown: false }}
               />
               <Stack.Screen
                 name="Sign up"
@@ -192,7 +245,7 @@ export default function app() {
                   headerTitle: false,
                   //headerTitleStyle: { fontweight: "bold" },
                   headerLeft: () => <Logo />,
-                  headerRight: () => <OverFlowMenu navigation={navigation} />,
+                  headerRight: () => <OverflowMenu navigation={navigation} />,
                   // <Formbutton
                   //   title="New Chatroom"
                   //   onPress={() => navigation.navigate("Addroom")}

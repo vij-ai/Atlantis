@@ -5,11 +5,23 @@ import Forminput from "../components/Forminput";
 import { useState } from "react";
 import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Signupscreen({ navigation }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
+
+  const storeLoginData = async (email, userName) => {
+    try {
+      await AsyncStorage.setItem("userEmail", email);
+      await AsyncStorage.setItem("userName", userName);
+      console.log("## signup asy username", userName);
+      console.log("## signup  async email", email);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   const signupUser = async (email, password, userName) => {
     try {
@@ -25,7 +37,7 @@ export default function Signupscreen({ navigation }) {
             alert(error.message, error);
           });
       }
-      alert("Sign up successful");
+      storeLoginData(email, userName);
       navigation.navigate("Atlantis");
     } catch (error) {
       alert(error.message, error);
@@ -38,7 +50,7 @@ export default function Signupscreen({ navigation }) {
       <Title style={styles.titleText}>The anonymous chat app</Title>
 
       <Forminput
-        labelname="Username"
+        labelname="Nick name"
         value={userName}
         autoCapitalize="none"
         onChangeText={(userName) => setUserName(userName)}
