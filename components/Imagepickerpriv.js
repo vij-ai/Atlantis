@@ -56,13 +56,14 @@ export default function Imagepickerpriv({ thread }) {
 
   const pickImage = async () => {
     ImagePicker.launchImageLibraryAsync({
-      mediaTypes: "Images",
+      //mediaTypes: "Images",
       base64: true,
     })
       .then((result) => {
         if (!result.cancelled) {
           // User picked an image
-          const { height, width, type, uri } = result;
+          console.log("##result", result);
+          const { height, width, type, uri, base64 } = result;
           db.collection("PrivateChat").doc(thread).collection("Messages").add({
             createdAt: new Date().getTime(),
             user: email,

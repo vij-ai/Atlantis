@@ -40,6 +40,7 @@ import { YellowBox } from "react-native";
 import _ from "lodash";
 import Privatechat from "./screens/Privatechat";
 import OverflowMenu from "./components/OverFlowMenu";
+import Splash from "./screens/Splash";
 
 import Terms from "./screens/Terms";
 import Loading from "./components/Loading";
@@ -52,39 +53,12 @@ console.warn = (message) => {
   }
 };
 
-var isLoggedIn = false;
-
-// function isLoading() {
-//   if (isLoggedIn == null) {
-//     return <Loading />;
-//   }
-// }
-//Store data
-const getData = async () => {
-  console.log("##getvalue", isLoggedIn);
-  try {
-    const value = await AsyncStorage.getItem("userEmail");
-    if (value != null) {
-      isLoggedIn = true;
-      console.log("##getvalue", isLoggedIn);
-      console.log("##value", value);
-      return isLoggedIn;
-
-      // value previously stored
-    } else {
-      isLoggedIn = false;
-      console.log("##getvalue", isLoggedIn);
-      return isLoggedIn;
-    }
-  } catch (e) {
-    //return isLoggedIn;
-    // error reading value
-  }
-};
+//var isLoggedIn;
 
 const tab = createMaterialTopTabNavigator();
 
 function Home() {
+  //console.log("@@route home", route);
   return (
     <tab.Navigator
       tabBarOptions={{
@@ -101,7 +75,7 @@ function Home() {
         },
       }}
     >
-      <tab.Screen name=" rooms" component={FeaturedChatRooms} />
+      <tab.Screen name="rooms" component={FeaturedChatRooms} />
       <tab.Screen name="Private chats" component={Mychats} />
     </tab.Navigator>
   );
@@ -127,7 +101,33 @@ function Logo() {
     </View>
   );
 }
+// const getData = async () => {
+//   //console.log("##inside async");
+//   try {
+//     const value = await AsyncStorage.getItem("userEmail");
+//     if (value != null) {
+//       // isLoggedIn = true;
+//       //console.log("##getvalue", isLoggedIn);
+//       console.log("##value", value);
+//       return value;
+
+//       // value previously stored
+//     } else {
+//       //isLoggedIn = false;
+//       console.log("## no value", value);
+//       return value;
+//     }
+//   } catch (e) {
+//     //return isLoggedIn;
+//     // error reading value
+//   }
+// };
+
 export default function app() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  //setIsLoggedIn(getData);
+
   function initializeFirebase() {
     var firebaseConfig = {
       apiKey: "AIzaSyAFlBWkTcp4vmKuIvbWFasE_yrcVXAGq74",
@@ -146,13 +146,13 @@ export default function app() {
   if (firebase.apps.length === 0) {
     initializeFirebase();
   }
+  // getData();
+  // console.log("##usersignedin1");
 
-  console.log("##usersignedin1", isLoggedIn);
-
-  useEffect(() => {
-    getData();
-    console.log("##useeffect", isLoggedIn);
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  //   // console.log("##useeffect", isLoggedIn);
+  // }, []);
 
   // if (!isLoggedIn) {
   //   var user = firebase.auth().currentUser;
@@ -164,116 +164,67 @@ export default function app() {
   //     console.log("##usernotsignedin", isLoggedIn);
   //   }
   // }
+  //const loggedIn = { isLoggedIn };
 
   return (
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          {isLoggedIn ? (
-            <>
-              <Stack.Screen
-                name="Atlantis"
-                component={Home}
-                options={({ navigation }) => ({
-                  headerTitle: false,
-                  //headerTitleStyle: { fontweight: "bold" },
-                  headerLeft: () => <Logo />,
-                  headerRight: () => <OverflowMenu navigation={navigation} />,
-                  // <Formbutton
-                  //   title="New Chatroom"
-                  //   onPress={() => navigation.navigate("Addroom")}
-                  //   uppercase={false}
-                  // />
-                })}
-              />
-              <Stack.Screen
-                name="Chats"
-                component={RoomScreen}
-                options={({ navigation, route }) => ({
-                  title: route.params.ChatRoomName,
-                })}
-              />
-              <Stack.Screen
-                name="Addroom"
-                component={AddRoomScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Privatechat"
-                component={Privatechat}
-                options={({ navigation, route }) => ({
-                  title: route.params.user.name,
-                })}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Loginscreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Sign up"
-                component={Signupscreen}
-                //options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Terms"
-                component={Terms}
-                options={{ title: "Terms and Privacy " }}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="Login"
-                component={Loginscreen}
-                //options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Sign up"
-                component={Signupscreen}
-                //options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Terms"
-                component={Terms}
-                options={{ title: "Terms and Privacy " }}
-              />
-              <Stack.Screen
-                name="Atlantis"
-                component={Home}
-                options={({ navigation }) => ({
-                  headerTitle: false,
-                  //headerTitleStyle: { fontweight: "bold" },
-                  headerLeft: () => <Logo />,
-                  headerRight: () => <OverflowMenu navigation={navigation} />,
-                  // <Formbutton
-                  //   title="New Chatroom"
-                  //   onPress={() => navigation.navigate("Addroom")}
-                  //   uppercase={false}
-                  // />
-                })}
-              />
-              <Stack.Screen
-                name="Chats"
-                component={RoomScreen}
-                options={({ navigation, route }) => ({
-                  title: route.params.ChatRoomName,
-                })}
-              />
-              <Stack.Screen
-                name="Addroom"
-                component={AddRoomScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Privatechat"
-                component={Privatechat}
-                options={({ navigation, route }) => ({
-                  title: route.params.user.name,
-                })}
-              />
-            </>
-          )}
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+            // options={{ navigation }}
+          />
+
+          <Stack.Screen
+            name="Login"
+            component={Loginscreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Sign up"
+            component={Signupscreen}
+            //options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Terms"
+            component={Terms}
+            options={{ title: "Terms and Privacy " }}
+          />
+          <Stack.Screen
+            name="Atlantis"
+            component={Home}
+            options={({ navigation }) => ({
+              headerTitle: false,
+              //headerTitleStyle: { fontweight: "bold" },
+              headerLeft: () => <Logo />,
+              headerRight: () => <OverflowMenu navigation={navigation} />,
+              // <Formbutton
+              //   title="New Chatroom"
+              //   onPress={() => navigation.navigate("Addroom")}
+              //   uppercase={false}
+              // />
+            })}
+          />
+          <Stack.Screen
+            name="Chats"
+            component={RoomScreen}
+            options={({ navigation, route }) => ({
+              title: route.params.ChatRoomName,
+            })}
+          />
+          <Stack.Screen
+            name="Addroom"
+            component={AddRoomScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Privatechat"
+            component={Privatechat}
+            options={({ navigation, route }) => ({
+              title: route.params.user.name,
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

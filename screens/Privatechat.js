@@ -38,6 +38,7 @@ export default function Privatechat({ route, navigation }) {
 
   const otheruser = route.params.user._id;
   const otherusername = route.params.user.name;
+  console.log("@@user", route);
 
   const db = firebase.firestore();
 

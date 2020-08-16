@@ -40,6 +40,7 @@ export default function RoomScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
 
   const { thread } = route.params;
+  //console.log("@@thread", thread);
 
   const db = firebase.firestore();
 

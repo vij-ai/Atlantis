@@ -24,6 +24,7 @@ export default function Loginscreen({ navigation }) {
     try {
       await AsyncStorage.setItem("userEmail", email);
       await AsyncStorage.setItem("userName", userName);
+
       console.log("##asy username", userName);
       console.log("##async email", email);
     } catch (e) {
