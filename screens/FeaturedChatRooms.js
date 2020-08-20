@@ -21,7 +21,7 @@ export default function FeaturedChatRooms({ navigation, route }) {
     .orderBy("lastActive", "desc");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  console.log("@@featured", route);
+  console.log("@@featurednow", route);
   function Item({ id, ChatRoomName, navigation, jam }) {
     return (
       <View>

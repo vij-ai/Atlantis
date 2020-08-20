@@ -139,14 +139,14 @@ export default function Privatechat({ route, navigation }) {
       user={{ _id: email, name: name }}
       minComposerHeight={46.7}
       alignTop={true}
-      isTyping={true}
+      //isTyping={true}
       renderUsernameOnMessage={true}
       //scrollToBottom={true}
-      keyboardShouldPersistTaps={false}
+      keyboardShouldPersistTaps="never"
       //bottomOffset={240}
-      renderActions={images}
+      //renderActions={images}
       showAvatarForEveryMessage={true}
-      infiniteScroll={true}
+      //infiniteScroll={true}
     />
   );
 }

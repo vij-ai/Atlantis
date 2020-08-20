@@ -173,6 +173,7 @@ export default function app() {
           <Stack.Screen
             name="Splash"
             component={Splash}
+            options={{ headerShown: false }}
             // options={{ navigation }}
           />
 

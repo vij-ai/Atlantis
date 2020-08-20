@@ -15,40 +15,42 @@ import "firebase/firestore";
 import Loading from "../components/Loading";
 import AsyncStorage from "@react-native-community/async-storage";
 
-var email = "null";
-var name = "null";
+//var email = "null";
+// var name = "null";
 
-const getData = async () => {
-  try {
-    email = await AsyncStorage.getItem("userEmail");
-    name = await AsyncStorage.getItem("userName");
-    if (email != null) {
-      console.log("##emailworking in chats", email);
-    } else {
-      email = "error";
-      console.log("##email not working in chats", email);
-    }
-  } catch (e) {
-    //return isLoggedIn;
-    // error reading value
-  }
-};
+// const getData = async () => {
+//   try {
+//     email = await AsyncStorage.getItem("userEmail");
+//     name = await AsyncStorage.getItem("userName");
+//     if (email != null) {
+//       console.log("##emailworking in chats", email);
+//     } else {
+//       email = "error";
+//       console.log("##email not working in chats", email);
+//     }
+//   } catch (e) {
+//     //return isLoggedIn;
+//     // error reading value
+//   }
+// };
 
 export default function Mychats({ navigation, route }) {
-  console.log("@@Mychats", route);
+  console.log("@@Mychatsnow1", route);
   // useEffect(() => {
   //   getData();
   //   //console.log("##useeffect", isLoggedIn);
   // }, []);
 
-  getData();
+  //getData();
+  // email = route.params.email;
+  // console.log("@@email in my chats", email);
 
   const db = firebase.firestore();
 
   var ref = db
     .collection("Personal")
-    .doc(email)
-    .collection(email)
+    .doc(route.params.email)
+    .collection(route.params.email)
     .orderBy("lastActive", "desc");
 
   // var user = firebase.auth().currentUser;
@@ -104,7 +106,7 @@ export default function Mychats({ navigation, route }) {
      * unsubscribe listener
      */
     return () => unsubscribe();
-  }, []);
+  }, [route.params.email]);
 
   if (loading) {
     return <Loading />;

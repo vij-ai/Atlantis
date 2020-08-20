@@ -51,12 +51,13 @@ export default class OverflowMenu extends React.PureComponent {
                   //await AsyncStorage.clear();
                   const keys = await AsyncStorage.getAllKeys();
                   await AsyncStorage.multiRemove(keys);
-                  alert("Storage successfully cleared!");
-                  console.log("## cleared");
+
+                  //alert("Storage successfully cleared!");
+                  //console.log("## cleared");
                   navigation.navigate("Login");
                 } catch (e) {
                   console.log("## un cleared");
-                  alert("Failed to clear the async storage.");
+                  //alert("Failed to clear the async storage.");
                 }
               }
 

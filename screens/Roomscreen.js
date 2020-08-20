@@ -138,7 +138,7 @@ export default function RoomScreen({ route, navigation }) {
       renderUsernameOnMessage={true}
       keyboardShouldPersistTaps={false}
       //bottomOffset={240}
-      renderActions={images}
+      //renderActions={images}
       //renderActions={() => <Imagepicker thread={thread.id} />}
       showAvatarForEveryMessage={true}
       onPressAvatar={(user) => {

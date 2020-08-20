@@ -12,7 +12,7 @@ const getData = async (navigation) => {
       console.log("##emailworking in splash", email);
       //navigation.navigate("Atlantis", { email, name });
       navigation.navigate("Atlantis", {
-        screen: "rooms",
+        screen: "Private chats",
         params: { email: email },
       });
     } else {
