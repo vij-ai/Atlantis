@@ -15,43 +15,25 @@ import "firebase/firestore";
 import Loading from "../components/Loading";
 import AsyncStorage from "@react-native-community/async-storage";
 
-//var email = "null";
-// var name = "null";
-
-// const getData = async () => {
-//   try {
-//     email = await AsyncStorage.getItem("userEmail");
-//     name = await AsyncStorage.getItem("userName");
-//     if (email != null) {
-//       console.log("##emailworking in chats", email);
-//     } else {
-//       email = "error";
-//       console.log("##email not working in chats", email);
-//     }
-//   } catch (e) {
-//     //return isLoggedIn;
-//     // error reading value
-//   }
-// };
-
 export default function Mychats({ navigation, route }) {
   console.log("@@Mychatsnow1", route);
-  // useEffect(() => {
-  //   getData();
-  //   //console.log("##useeffect", isLoggedIn);
-  // }, []);
-
-  //getData();
-  // email = route.params.email;
-  // console.log("@@email in my chats", email);
 
   const db = firebase.firestore();
-
-  var ref = db
-    .collection("Personal")
-    .doc(route.params.email)
-    .collection(route.params.email)
-    .orderBy("lastActive", "desc");
+  var ref = db;
+  var uEmail;
+  var unsubscribe;
+  AsyncStorage.getItem("userEmail").then((userEmail) => {
+    if (userEmail) {
+      console.log("email123----" + userEmail);
+      uEmail = userEmail;
+      ref = db
+        .collection("Personal")
+        .doc(userEmail)
+        .collection(userEmail)
+        .orderBy("lastActive", "desc");
+      getPrivateData();
+    }
+  });
 
   // var user = firebase.auth().currentUser;
   // var name, email;
@@ -85,32 +67,54 @@ export default function Mychats({ navigation, route }) {
     );
   }
 
-  useEffect(() => {
-    const unsubscribe = ref.onSnapshot((querySnapshot) => {
+  function getPrivateData() {
+    unsubscribe = ref.onSnapshot((querySnapshot) => {
       const list = querySnapshot.docs.map((documentSnapshot) => {
         return {
           id: documentSnapshot.id,
-
           ...documentSnapshot.data(),
         };
       });
 
-      setData(list);
-
-      if (loading) {
-        setLoading(false);
-      }
+      setListData(list).then(unsubscribe());
     });
 
-    /**
-     * unsubscribe listener
-     */
-    return () => unsubscribe();
-  }, [route.params.email]);
-
-  if (loading) {
-    return <Loading />;
+    // db.terminate();
+    if (loading) {
+      setLoading(false);
+      <Loading />;
+    }
   }
+
+  async function setListData(list) {
+    setData(list);
+  }
+
+  //   useEffect(() => {
+  //     console.log("ref----"+uEmail)
+  //     if(uEmail!=null ||uEmail!=undefined){
+  //       ref.onSnapshot((querySnapshot) => {
+  //       const list = querySnapshot.docs.map((documentSnapshot) => {
+  //         return {
+  //           id: documentSnapshot.id,
+  //           ...documentSnapshot.data(),
+  //         };
+  //       });
+
+  //       setData(list);
+  //     });
+
+  //     ref.off
+  //     /**
+  //      * unsubscribe listener
+  //      */
+  //     return () => unsubscribe();
+  //   }
+  //   if (loading) {
+  //     setLoading(false);
+  //   }
+
+  // }, [uEmail]);
 
   return (
     <View style={styles.container}>

@@ -1,15 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { View, Text, TouchableOpacity } from "react-native";
 import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
-import AddRoomScreen from "../screens/Addroomscreen";
-import { NavigationContainer } from "@react-navigation/native";
-//import icon from "../assets/menu.png";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import AsyncStorage from "@react-native-community/async-storage";
 
-export default class OverflowMenu extends React.PureComponent {
+export default class OverflowMenu extends Component {
   _menu = null;
 
   setMenuRef = (ref) => {
@@ -40,11 +37,8 @@ export default class OverflowMenu extends React.PureComponent {
           ref={this.setMenuRef}
           button={<Text onPress={this.showMenu}>Show menu</Text>}
         >
-          {/* <MenuItem onPress={() => navigation.navigate("Addroom")}>
-            New Chatroom
-          </MenuItem> */}
-          {/* <MenuDivider /> */}
           <MenuItem
+            StaysOpenOnClick="True"
             onPress={async () => {
               {
                 try {
@@ -60,16 +54,6 @@ export default class OverflowMenu extends React.PureComponent {
                   //alert("Failed to clear the async storage.");
                 }
               }
-
-              // firebase
-              //   .auth()
-              //   .signOut()
-              //   .then(function () {
-              //     navigation.navigate("Login");
-              //   })
-              //   .catch(function (error) {
-              //     // An error happened.
-              //   });
             }}
           >
             Log out
