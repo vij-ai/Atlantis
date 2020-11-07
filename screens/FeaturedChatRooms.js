@@ -7,6 +7,8 @@ import {
   Text,
   View,
   Dimensions,
+  BackHandler,
+  Alert,
 } from "react-native";
 import * as firebase from "firebase";
 import { useEffect, useState } from "react";
@@ -15,6 +17,25 @@ import Loading from "../components/Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function FeaturedChatRooms({ navigation, route }) {
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to exit app?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() },
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   const ref = firebase
     .firestore()
     .collection("ChatRooms")

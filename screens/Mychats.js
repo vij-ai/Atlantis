@@ -15,16 +15,14 @@ import "firebase/firestore";
 import Loading from "../components/Loading";
 import AsyncStorage from "@react-native-community/async-storage";
 
-export default function Mychats({ navigation, route }) {
-  console.log("@@Mychatsnow1", route);
-
+export default function Mychats({ navigation }) {
   const db = firebase.firestore();
   var ref = db;
   var uEmail;
   var unsubscribe;
   AsyncStorage.getItem("userEmail").then((userEmail) => {
     if (userEmail) {
-      console.log("email123----" + userEmail);
+      //console.log("email123----" + userEmail);
       uEmail = userEmail;
       ref = db
         .collection("Personal")
@@ -89,32 +87,6 @@ export default function Mychats({ navigation, route }) {
   async function setListData(list) {
     setData(list);
   }
-
-  //   useEffect(() => {
-  //     console.log("ref----"+uEmail)
-  //     if(uEmail!=null ||uEmail!=undefined){
-  //       ref.onSnapshot((querySnapshot) => {
-  //       const list = querySnapshot.docs.map((documentSnapshot) => {
-  //         return {
-  //           id: documentSnapshot.id,
-  //           ...documentSnapshot.data(),
-  //         };
-  //       });
-
-  //       setData(list);
-  //     });
-
-  //     ref.off
-  //     /**
-  //      * unsubscribe listener
-  //      */
-  //     return () => unsubscribe();
-  //   }
-  //   if (loading) {
-  //     setLoading(false);
-  //   }
-
-  // }, [uEmail]);
 
   return (
     <View style={styles.container}>

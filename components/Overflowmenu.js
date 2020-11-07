@@ -58,6 +58,14 @@ export default class OverflowMenu extends Component {
           >
             Log out
           </MenuItem>
+          <MenuItem
+            StaysOpenOnClick="True"
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
+          >
+            Talk to expert
+          </MenuItem>
         </Menu>
       </View>
     );

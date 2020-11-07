@@ -40,7 +40,7 @@ export default function RoomScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
 
   const { thread } = route.params;
-  //console.log("@@thread", thread);
+  console.log("@@thread", thread);
 
   const db = firebase.firestore();
 
@@ -50,14 +50,6 @@ export default function RoomScreen({ route, navigation }) {
     .doc(thread.id)
     .collection("Messages")
     .orderBy("createdAt", "desc");
-
-  // var user = firebase.auth().currentUser;
-  // var name, email;
-
-  // if (user != null) {
-  //   name = user.displayName;
-  //   email = user.email;
-  // }
 
   function handleSend(newMessages) {
     const text = newMessages[0].text;
@@ -113,19 +105,19 @@ export default function RoomScreen({ route, navigation }) {
     return <Loading />;
   }
 
-  function images() {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-        }}
-      >
-        <Imagepicker thread={thread.id} />
+  // function images() {
+  //   return (
+  //     <View
+  //       style={{
+  //         flexDirection: "row",
+  //       }}
+  //     >
+  //       <Imagepicker thread={thread.id} />
 
-        <Camerapicker thread={thread.id} />
-      </View>
-    );
-  }
+  //       <Camerapicker thread={thread.id} />
+  //     </View>
+  //   );
+  // }
 
   return (
     <GiftedChat
