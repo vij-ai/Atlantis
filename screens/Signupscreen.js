@@ -5,7 +5,7 @@ import Forminput from "../components/Forminput";
 import { useState } from "react";
 import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 
 export default function Signupscreen({ navigation }) {
   const [Email, setEmail] = useState("");
@@ -16,8 +16,8 @@ export default function Signupscreen({ navigation }) {
     try {
       await AsyncStorage.setItem("userEmail", email);
       await AsyncStorage.setItem("userName", userName);
-      console.log("## signup asy username", userName);
-      console.log("## signup  async email", email);
+      //console.log("## signup asy username", userName);
+      //console.log("## signup  async email", email);
     } catch (e) {
       // saving error
     }

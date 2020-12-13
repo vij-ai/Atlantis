@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 var email = "null";
 var name = "null";
 
@@ -9,14 +9,14 @@ const getData = async (navigation) => {
     email = await AsyncStorage.getItem("userEmail");
     name = await AsyncStorage.getItem("userName");
     if (email != null) {
-      console.log("##emailworking in splash", email);
+      // console.log("##emailworking in splash", email);
       //navigation.navigate("Atlantis", { email, name });
       navigation.navigate("Atlantis", {
         screen: "rooms",
         params: { email: email },
       });
     } else {
-      console.log("##email not working in chats", email);
+      //console.log("##email not working in chats", email);
       navigation.navigate("Login");
     }
   } catch (e) {

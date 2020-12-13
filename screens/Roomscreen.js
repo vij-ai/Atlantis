@@ -9,7 +9,7 @@ import Imagepicker from "../components/Imagepicker";
 
 import { NavigationContainer } from "@react-navigation/native";
 import Camerapicker from "../components/Camerapicker";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 
 var email = "null";
 var name = "null";
@@ -19,10 +19,10 @@ const getData = async () => {
     email = await AsyncStorage.getItem("userEmail");
     name = await AsyncStorage.getItem("userName");
     if (email != null) {
-      console.log("##emailworking in roomscreen", name);
+      // console.log("##emailworking in roomscreen", name);
     } else {
       email = "error";
-      console.log("##email not working in chats", email);
+      //console.log("##email not working in chats", email);
     }
   } catch (e) {
     //return isLoggedIn;
@@ -40,7 +40,7 @@ export default function RoomScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true);
 
   const { thread } = route.params;
-  console.log("@@thread", thread);
+  //console.log("@@thread", thread);
 
   const db = firebase.firestore();
 

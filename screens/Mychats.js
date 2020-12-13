@@ -13,7 +13,7 @@ import * as firebase from "firebase";
 import { useEffect, useState } from "react";
 import "firebase/firestore";
 import Loading from "../components/Loading";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 
 export default function Mychats({ navigation }) {
   const db = firebase.firestore();

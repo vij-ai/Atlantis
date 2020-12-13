@@ -14,7 +14,7 @@ import Formbutton from "../components/Formbutton";
 import * as firebase from "firebase";
 import WavyHeader from "../components/WavyHeader";
 import Loading from "../components/Loading";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 
 export default function Loginscreen({ navigation }) {
   const [Email, setEmail] = useState("");
@@ -25,8 +25,8 @@ export default function Loginscreen({ navigation }) {
       await AsyncStorage.setItem("userEmail", email);
       await AsyncStorage.setItem("userName", userName);
 
-      console.log("##asy username", userName);
-      console.log("##async email", email);
+      //console.log("##asy username", userName);
+      // console.log("##async email", email);
     } catch (e) {
       // saving error
     }

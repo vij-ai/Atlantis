@@ -4,7 +4,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import AsyncStorage from "@react-native-community/async-storage";
+//import { AsyncStorage } from "react-native";
+import { AsyncStorage } from "react-native";
 
 export default class OverflowMenu extends Component {
   _menu = null;
@@ -38,8 +39,20 @@ export default class OverflowMenu extends Component {
           button={<Text onPress={this.showMenu}>Show menu</Text>}
         >
           <MenuItem
-            StaysOpenOnClick="True"
-            onPress={async () => {
+            // StaysOpenOnClick="False"
+            onPressIn={() => navigation.navigate("Talktoexpert")}
+            onPress={this.hideMenu}
+          >
+            {/* <MenuItem
+            onPress={
+              this.hideMenu;
+            }
+          > */}
+            Talk to expert
+          </MenuItem>
+          <MenuItem
+            // StaysOpenOnClick="True"
+            onPressIn={async () => {
               {
                 try {
                   //await AsyncStorage.clear();
@@ -50,21 +63,14 @@ export default class OverflowMenu extends Component {
                   //console.log("## cleared");
                   navigation.navigate("Login");
                 } catch (e) {
-                  console.log("## un cleared");
+                  //console.log("## un cleared");
                   //alert("Failed to clear the async storage.");
                 }
               }
             }}
+            onPress={this.hideMenu}
           >
             Log out
-          </MenuItem>
-          <MenuItem
-            StaysOpenOnClick="True"
-            onPress={() => {
-              navigation.navigate("Login");
-            }}
-          >
-            Talk to expert
           </MenuItem>
         </Menu>
       </View>

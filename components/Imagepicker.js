@@ -5,7 +5,7 @@ import Constants from "expo-constants";
 import { IconButton, Colors } from "react-native-paper";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 
 var email = "null";
 var name = "null";

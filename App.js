@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
 import Formbutton from "./components/Formbutton";
+import { AsyncStorage } from "react-native";
 
 import * as firebase from "firebase";
 
@@ -26,7 +27,6 @@ import FeaturedChatRooms from "./screens/FeaturedChatRooms";
 import "firebase/firestore";
 import { decode, encode } from "base-64";
 import Signupscreen from "./screens/Signupscreen";
-import AsyncStorage from "@react-native-community/async-storage";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -44,6 +44,7 @@ import Splash from "./screens/Splash";
 
 import Terms from "./screens/Terms";
 import Loading from "./components/Loading";
+import Talktoexpert from "./screens/Talktoexpert";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
@@ -194,7 +195,7 @@ export default function app() {
           />
           <Stack.Screen
             name="Atlantis"
-            component={Home}
+            component={FeaturedChatRooms}
             options={({ navigation }) => ({
               headerTitle: false,
               //headerTitleStyle: { fontweight: "bold" },
@@ -216,8 +217,8 @@ export default function app() {
             })}
           />
           <Stack.Screen
-            name="Addroom"
-            component={AddRoomScreen}
+            name="Talktoexpert"
+            component={Talktoexpert}
             options={{ headerShown: false }}
           />
           <Stack.Screen

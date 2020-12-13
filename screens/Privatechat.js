@@ -7,7 +7,7 @@ import "firebase/firestore";
 import Loading from "../components/Loading";
 import Imagepickerpriv from "../components/Imagepickerpriv";
 import Camerapickerpriv from "../components/Camerpickerpriv";
-import AsyncStorage from "@react-native-community/async-storage";
+import { AsyncStorage } from "react-native";
 
 var email = "null";
 var name = "null";
