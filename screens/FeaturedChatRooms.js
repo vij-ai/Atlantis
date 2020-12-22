@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import "firebase/firestore";
 import Loading from "../components/Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Button } from "react-native-paper";
+import OverflowMenu from "../components/OverFlowMenu";
 
 export default function FeaturedChatRooms({ navigation, route }) {
   const backAction = () => {
@@ -102,6 +104,7 @@ export default function FeaturedChatRooms({ navigation, route }) {
           />
         )}
         keyExtractor={(item) => item.id}
+        ListFooterComponent={<OverflowMenu navigation={navigation} />}
       />
     </View>
   );

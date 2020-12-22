@@ -133,9 +133,9 @@ export default function RoomScreen({ route, navigation }) {
       //renderActions={images}
       //renderActions={() => <Imagepicker thread={thread.id} />}
       showAvatarForEveryMessage={true}
-      onPressAvatar={(user) => {
-        navigation.navigate("Privatechat", { user });
-      }}
+      // onPressAvatar={(user) => {
+      //   navigation.navigate("Privatechat", { user });
+      // }}
     />
   );
 }

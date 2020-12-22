@@ -36,20 +36,8 @@ export default class OverflowMenu extends Component {
       >
         <Menu
           ref={this.setMenuRef}
-          button={<Text onPress={this.showMenu}>Show menu</Text>}
+          button={<Text onPress={this.showMenu}>Log out</Text>}
         >
-          <MenuItem
-            // StaysOpenOnClick="False"
-            onPressIn={() => navigation.navigate("Talktoexpert")}
-            onPress={this.hideMenu}
-          >
-            {/* <MenuItem
-            onPress={
-              this.hideMenu;
-            }
-          > */}
-            Talk to expert
-          </MenuItem>
           <MenuItem
             // StaysOpenOnClick="True"
             onPressIn={async () => {
@@ -70,7 +58,7 @@ export default class OverflowMenu extends Component {
             }}
             onPress={this.hideMenu}
           >
-            Log out
+            Click here to Log out
           </MenuItem>
         </Menu>
       </View>

@@ -1,7 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -45,6 +45,7 @@ import Splash from "./screens/Splash";
 import Terms from "./screens/Terms";
 import Loading from "./components/Loading";
 import Talktoexpert from "./screens/Talktoexpert";
+import Talktoexpertsch from "./screens/Talktoexpertsch";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
@@ -200,13 +201,17 @@ export default function app() {
               headerTitle: false,
               //headerTitleStyle: { fontweight: "bold" },
               headerLeft: () => <Logo />,
-              headerRight: () => <OverflowMenu navigation={navigation} />,
-
-              // <Formbutton
-              //   title="New Chatroom"
-              //   onPress={() => navigation.navigate("Addroom")}
-              //   uppercase={false}
-              // />
+              headerRight: () => (
+                //<OverflowMenu navigation={navigation} />,
+                <View style={{ marginRight: 6 }}>
+                  <Button
+                    title="Talk to expert"
+                    onPress={() => navigation.navigate("Talktoexpertsch")}
+                    uppercase={false}
+                    color="#000000"
+                  />
+                </View>
+              ),
             })}
           />
           <Stack.Screen
@@ -219,6 +224,11 @@ export default function app() {
           <Stack.Screen
             name="Talktoexpert"
             component={Talktoexpert}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Talktoexpertsch"
+            component={Talktoexpertsch}
             options={{ headerShown: false }}
           />
           <Stack.Screen
