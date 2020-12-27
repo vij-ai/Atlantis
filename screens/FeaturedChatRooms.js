@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -9,14 +10,18 @@ import {
   Dimensions,
   BackHandler,
   Alert,
+  Button,
 } from "react-native";
 import * as firebase from "firebase";
-import { useEffect, useState } from "react";
+
 import "firebase/firestore";
 import Loading from "../components/Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { Button } from "react-native-paper";
+//import { Button } from "react-native-paper";
 import OverflowMenu from "../components/OverFlowMenu";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import Constants from "expo-constants";
 
 export default function FeaturedChatRooms({ navigation, route }) {
   const backAction = () => {
@@ -42,6 +47,7 @@ export default function FeaturedChatRooms({ navigation, route }) {
     .firestore()
     .collection("ChatRooms")
     .orderBy("lastActive", "desc");
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //console.log("@@featurednow", route);
