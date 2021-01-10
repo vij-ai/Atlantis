@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Image, { View } from "react-native";
+import { Text, View, Button } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 
 import * as firebase from "firebase";
@@ -15,6 +15,8 @@ import { AsyncStorage, BackHandler } from "react-native";
 
 var email = "null";
 var name = "null";
+
+const tokenlist = firebase.firestore().collection("expopushtoken");
 
 const getData = async () => {
   try {
@@ -32,6 +34,14 @@ const getData = async () => {
   }
 };
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 export default function RoomScreen({ route, navigation }) {
   useEffect(() => {
     getData();
@@ -42,6 +52,35 @@ export default function RoomScreen({ route, navigation }) {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = tokenlist.onSnapshot((querySnapshot) => {
+      const list = querySnapshot.docs.map((documentSnapshot) => {
+        return {
+          id: documentSnapshot.id,
+
+          ...documentSnapshot.data(),
+        };
+      });
+
+      setData(list);
+
+      if (loading) {
+        setLoading(false);
+      }
+    });
+
+    /**
+     * unsubscribe listener
+     */
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
@@ -74,7 +113,9 @@ export default function RoomScreen({ route, navigation }) {
       sound: "default",
       title: "New message received",
       // body: "And here is the body!",
-      //data: { data: "goes here" },
+      // data: {
+      //   experienceId: "@vijith.pad/Atlantis",
+      // },
     };
 
     await fetch("https://exp.host/--/api/v2/push/send", {
@@ -105,15 +146,23 @@ export default function RoomScreen({ route, navigation }) {
         alert("Failed to get push token for push notification!");
         return;
       }
+      //token = (await Notifications.getDevicePushTokenAsync()).data;
       token = (await Notifications.getExpoPushTokenAsync()).data;
+      db.collection("expopushtoken").doc(token).collection("Messages").add({
+        createdAt: new Date().getTime(),
+        user: email,
+        name: name,
+
+        // _id: userid,
+      });
       console.log(token);
     } else {
       alert("Must use physical device for Push Notifications");
     }
 
     if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("Buda", {
-        name: "Buda",
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: "#FF231F7C",
@@ -209,6 +258,31 @@ export default function RoomScreen({ route, navigation }) {
   // }
 
   return (
+    // <View
+    //   style={{
+    //     flex: 1,
+    //     alignItems: "center",
+    //     justifyContent: "space-around",
+    //   }}
+    // >
+    //   <Text>Your expo push token: {expoPushToken}</Text>
+    //   <View style={{ alignItems: "center", justifyContent: "center" }}>
+    //     <Text>
+    //       Title: {notification && notification.request.content.title}{" "}
+    //     </Text>
+    //     <Text>Body: {notification && notification.request.content.body}</Text>
+    //     <Text>
+    //       Data:{" "}
+    //       {notification && JSON.stringify(notification.request.content.data)}
+    //     </Text>
+    //   </View>
+    //   <Button
+    //     title="Press to Send Notification"
+    //     onPress={async () => {
+    //       await sendPushNotification(expoPushToken);
+    //     }}
+    //   />
+    // </View>
     <GiftedChat
       messages={messages}
       onSend={handleSend}

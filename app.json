@@ -2,13 +2,17 @@
   "expo": {
     "name": "buda",
     "icon": "./assets/icon.png",
+    "notifications.icon": "./assets/icon.png",
 
     "version": "1.0.2",
     "slug": "Atlantis",
 
     "android": {
       "package": "com.yourcompany.Buda",
-      "versionCode": 10
+      "versionCode": 12,
+
+      "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json"
     }
   }
 }

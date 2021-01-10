@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Dimensions, BackHandler, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  BackHandler,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { IconButton, Title } from "react-native-paper";
 import FormInput from "../components/Forminput";
 import FormButton from "../components/Formbutton";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import { AsyncStorage } from "react-native";
+import Loading from "../components/Loading";
 
 import { WebView } from "react-native-webview";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Talktoexpertsch({ navigation }) {
+  const [loading, setLoading] = useState(true);
+
   const backAction = () => {
     Alert.alert("Go back to app?", "Hope you have scheduled a session", [
       {
@@ -29,10 +39,17 @@ export default function Talktoexpertsch({ navigation }) {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  function LoadingIndicatorView() {
+    return <Loading />;
+    //return <ActivityIndicator color="#009b88" size="large" />;
+  }
+
   return (
     <WebView
       source={{ uri: "https://calendly.com/vijithpad/meditate" }}
       style={{ marginTop: 10 }}
+      renderLoading={LoadingIndicatorView}
+      startInLoadingState={true}
     />
   );
 }
