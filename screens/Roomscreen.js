@@ -16,8 +16,6 @@ import { AsyncStorage, BackHandler } from "react-native";
 var email = "null";
 var name = "null";
 
-const tokenlist = firebase.firestore().collection("expopushtoken");
-
 const getData = async () => {
   try {
     email = await AsyncStorage.getItem("userEmail");
@@ -52,35 +50,37 @@ export default function RoomScreen({ route, navigation }) {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState([]);
+  const db = firebase.firestore();
+
+  const tokenlist = firebase.firestore().collection("expopushtoken");
 
   useEffect(() => {
-    const unsubscribe = tokenlist.onSnapshot((querySnapshot) => {
-      const list = querySnapshot.docs.map((documentSnapshot) => {
-        return {
-          id: documentSnapshot.id,
+    return tokenlist.onSnapshot((querySnapshot) => {
+      const list = [];
+      let deviceToken = expoPushToken;
+      console.log("@@devicetoken", deviceToken);
 
-          ...documentSnapshot.data(),
-        };
+      querySnapshot.forEach((doc) => {
+        const expopush = doc.data();
+        const dbToken = expopush.to;
+        if (dbToken == deviceToken) {
+          console.log("@@if");
+        } else {
+          list.push(expopush);
+          console.log("@@expopush", dbToken);
+        }
       });
 
       setData(list);
+      console.log("@@list", list);
 
-      if (loading) {
-        setLoading(false);
-      }
+      /**
+       * unsubscribe listener
+       */
     });
-
-    /**
-     * unsubscribe listener
-     */
-    return () => unsubscribe();
   }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
@@ -107,16 +107,9 @@ export default function RoomScreen({ route, navigation }) {
     };
   }, []);
 
-  async function sendPushNotification(expoPushToken) {
-    const message = {
-      to: expoPushToken,
-      sound: "default",
-      title: "New message received",
-      // body: "And here is the body!",
-      // data: {
-      //   experienceId: "@vijith.pad/Atlantis",
-      // },
-    };
+  async function sendPushNotification() {
+    console.log("@@data", data);
+    const message = data;
 
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
@@ -148,13 +141,30 @@ export default function RoomScreen({ route, navigation }) {
       }
       //token = (await Notifications.getDevicePushTokenAsync()).data;
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      db.collection("expopushtoken").doc(token).collection("Messages").add({
-        createdAt: new Date().getTime(),
-        user: email,
-        name: name,
+      firebase.firestore().collection("expopushtoken").doc(token).set(
+        {
+          to: token,
+          //to: data,
+          sound: "default",
+          title: "New message received",
+          // createdAt: new Date().getTime(),
+          // lastActive: new Date().getTime(),
+        },
+        { merge: true }
+      );
 
-        // _id: userid,
-      });
+      // db.collection("expopushtoken")
+      //   .doc(token)
+      //   .set(
+      //     {
+      //       latestMessage: {
+      //         text,
+      //         createdAt: new Date().getTime(),
+      //       },
+      //       lastActive: new Date().getTime(),
+      //     },
+      //     { merge: true }
+      //   );
       console.log(token);
     } else {
       alert("Must use physical device for Push Notifications");
@@ -178,8 +188,6 @@ export default function RoomScreen({ route, navigation }) {
   const { thread } = route.params;
   //console.log("@@thread", thread);
 
-  const db = firebase.firestore();
-
   const ref = firebase
     .firestore()
     .collection("ChatRooms")
@@ -199,6 +207,9 @@ export default function RoomScreen({ route, navigation }) {
 
       // _id: userid,
     });
+
+    sendPushNotification();
+
     db.collection("ChatRooms")
       .doc(thread.id)
       .set(
@@ -211,8 +222,6 @@ export default function RoomScreen({ route, navigation }) {
         },
         { merge: true }
       );
-
-    sendPushNotification(expoPushToken);
   }
 
   useEffect(() => {
@@ -258,31 +267,6 @@ export default function RoomScreen({ route, navigation }) {
   // }
 
   return (
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     alignItems: "center",
-    //     justifyContent: "space-around",
-    //   }}
-    // >
-    //   <Text>Your expo push token: {expoPushToken}</Text>
-    //   <View style={{ alignItems: "center", justifyContent: "center" }}>
-    //     <Text>
-    //       Title: {notification && notification.request.content.title}{" "}
-    //     </Text>
-    //     <Text>Body: {notification && notification.request.content.body}</Text>
-    //     <Text>
-    //       Data:{" "}
-    //       {notification && JSON.stringify(notification.request.content.data)}
-    //     </Text>
-    //   </View>
-    //   <Button
-    //     title="Press to Send Notification"
-    //     onPress={async () => {
-    //       await sendPushNotification(expoPushToken);
-    //     }}
-    //   />
-    // </View>
     <GiftedChat
       messages={messages}
       onSend={handleSend}

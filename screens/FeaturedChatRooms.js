@@ -47,10 +47,10 @@ export default function FeaturedChatRooms({ navigation, route }) {
     .firestore()
     .collection("ChatRooms")
     .orderBy("lastActive", "desc");
-
+  console.log("@@ref", ref);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  //console.log("@@featurednow", route);
+  console.log("@@datachatroom", data);
   function Item({ id, ChatRoomName, navigation, jam }) {
     return (
       <View>
