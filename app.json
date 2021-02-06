@@ -3,12 +3,12 @@
     "name": "buda",
     "icon": "./assets/icon.png",
 
-    "version": "1.0.2",
+    "version": "1.0.3",
     "slug": "Atlantis",
 
     "android": {
       "package": "com.yourcompany.Buda",
-      "versionCode": 12,
+      "versionCode": 14,
       "permissions": [],
       "icon": "./assets/icon.png",
       "adaptiveIcon": {

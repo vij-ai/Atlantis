@@ -5,12 +5,12 @@ import { View, StyleSheet, Image, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useEffect } from "react";
+import { useRef } from "react";
 import Mychats from "./screens/Mychats";
 import Loginscreen from "./screens/Loginscreen";
 import Formbutton from "./components/Formbutton";
 import { AsyncStorage } from "react-native";
-
+import { Navigation } from "react-native-navigation";
 import * as firebase from "firebase";
 
 import {
@@ -46,6 +46,7 @@ import Terms from "./screens/Terms";
 import Loading from "./components/Loading";
 import Talktoexpert from "./screens/Talktoexpert";
 import Talktoexpertsch from "./screens/Talktoexpertsch";
+import * as Analytics from "expo-firebase-analytics";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
@@ -58,6 +59,17 @@ console.warn = (message) => {
 //var isLoggedIn;
 
 const tab = createMaterialTopTabNavigator();
+
+Navigation.events().registerComponentDidAppearListener(
+  async ({ componentName, componentType }) => {
+    if (componentType === "Component") {
+      await analytics().logScreenView({
+        screen_name: componentName,
+        screen_class: componentName,
+      });
+    }
+  }
+);
 
 function Home() {
   //console.log("@@route home", route);
@@ -127,6 +139,8 @@ function Logo() {
 
 export default function app() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const navigationRef = useRef();
+  const routeNameRef = useRef();
 
   //setIsLoggedIn(getData);
 

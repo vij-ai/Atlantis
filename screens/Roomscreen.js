@@ -32,13 +32,13 @@ const getData = async () => {
   }
 };
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: false,
+//     shouldPlaySound: false,
+//     shouldSetBadge: false,
+//   }),
+// });
 
 export default function RoomScreen({ route, navigation }) {
   useEffect(() => {
@@ -59,18 +59,18 @@ export default function RoomScreen({ route, navigation }) {
   useEffect(() => {
     return tokenlist.onSnapshot((querySnapshot) => {
       const list = [];
-      let deviceToken = expoPushToken;
-      console.log("@@devicetoken", deviceToken);
+      //let deviceToken = expoPushToken;
+      //console.log("@@devicetoken", deviceToken);
 
       querySnapshot.forEach((doc) => {
         const expopush = doc.data();
-        const dbToken = expopush.to;
-        if (dbToken == deviceToken) {
-          console.log("@@if");
-        } else {
-          list.push(expopush);
-          console.log("@@expopush", dbToken);
-        }
+        //const dbToken = expopush.to;
+        // if (dbToken == deviceToken) {
+        //   console.log("@@if");
+        // } else {
+        list.push(expopush);
+        console.log("@@expopush", expopush);
+        //}
       });
 
       setData(list);
@@ -90,6 +90,8 @@ export default function RoomScreen({ route, navigation }) {
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(
       (notification) => {
+        Notifications.dismissNotificationAsync(notification.notificationId);
+
         setNotification(notification);
       }
     );
